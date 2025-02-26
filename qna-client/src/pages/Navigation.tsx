@@ -1,15 +1,13 @@
-import {
-  Routes,
-  Route,
-  Link,
-  useNavigate,
-  useLocation,
-} from "react-router-dom";
-import { useState } from "react";
+import { useContext } from "react";
+import { QnaDispatchContext } from "../App";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Navigation = () => {
-  const [isLogin, setIsLogin] = useState(false);
+  console.log("[Navigation]isLogin ---> ", useContext(QnaDispatchContext));
+  const context = useContext(QnaDispatchContext)!;
+  if (!context) throw new Error("[Navigation]isLogin is not found");
+
   const navigate = useNavigate();
 
   const navLinks = [
@@ -43,7 +41,7 @@ const Navigation = () => {
           </Link>
         ))}
 
-        {!isLogin && (
+        {context.isLogin && (
           <Link
             to={"/register"}
             className={location.pathname === "/register" ? "active" : ""}
@@ -51,7 +49,7 @@ const Navigation = () => {
             Register
           </Link>
         )}
-        {!isLogin ? (
+        {context.isLogin ? (
           <Link
             to={"/login"}
             className={location.pathname === "/login" ? "active" : ""}

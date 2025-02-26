@@ -1,28 +1,28 @@
-import { useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import Axios from "axios";
-import { QuestionsContext } from "../_context/QuestionProvider.jsx";
+import { QnaDispatchContext } from "../App";
 import { useNavigate } from "react-router-dom";
 import { LoginStyle } from "../styles/index.js";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { loginUser } = useContext(QuestionsContext);
+  const { onLogin } = useContext(QnaDispatchContext)!;
   const navigate = useNavigate();
 
-  const onEmailHandler = (event) => {
+  const onEmailHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.currentTarget.value);
   };
-  const onPasswordHandler = (event) => {
+  const onPasswordHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.currentTarget.value);
   };
-  const onSubmitHandler = (event) => {
+  const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     console.log("check");
     event.preventDefault();
     console.log(email);
     console.log(password);
 
-    let body = {
+    const body = {
       email: email,
       password: password,
     };
@@ -32,13 +32,13 @@ const Login = () => {
       // Axios.post("http://localhost:5000/api/users/login", body)
       .then((response) => {
         if (response.data.loginSuccess) {
-          loginUser({
+          onLogin({
             isLogin: true,
             message: "로그인 성공",
           });
           navigate("/");
         } else {
-          loginUser({
+          onLogin({
             isLogin: false,
             message: "로그인 실패",
           });
@@ -47,7 +47,7 @@ const Login = () => {
       })
       .catch((err) => {
         console.log("login err ==> ", err);
-        loginUser({
+        onLogin({
           isLogin: false,
           message: "로그인 에러 발생",
         });

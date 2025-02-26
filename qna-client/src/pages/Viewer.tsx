@@ -1,12 +1,13 @@
 import { useParams } from "react-router-dom";
 import Card from "../components/Card.jsx";
 import { useState, useContext } from "react";
-import { QuestionsContext } from "../_context/QuestionProvider.jsx";
+import { QnaStateContext } from "../App.js";
 import { MinxinsStyle } from "../styles/index.js";
 
 const Viewer = () => {
-  const { state, total } = useContext(QuestionsContext);
-  console.log("Viewer[state]: ", state);
+  const qnas = useContext(QnaStateContext);
+  if (!qnas) throw new Error("[Viewer]qnas is not found");
+  console.log("Viewer[state]: ", qnas);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const params = useParams();
@@ -19,7 +20,7 @@ const Viewer = () => {
   };
 
   const nextCard = () => {
-    if (currentIndex < state.questions.length - 1) {
+    if (currentIndex < qnas.state.questions.length - 1) {
       setCurrentIndex((prev) => prev + 1);
     }
   };
@@ -28,10 +29,10 @@ const Viewer = () => {
     <div className="viewer">
       <MinxinsStyle.CardContainer>
         <Card
-          question={state.questions[currentIndex]?.content.question}
-          answer={state.questions[currentIndex]?.content.answer}
+          question={qnas.state?.questions[currentIndex]?.content.question}
+          answer={qnas.state?.questions[currentIndex]?.content.answer}
           index={currentIndex + 1}
-          total={total}
+          total={qnas.state?.questions.length}
           prevCard={prevCard}
           nextCard={nextCard}
           flipped={false}

@@ -1,43 +1,34 @@
-import { useReducer, useRef, createContext, useEffect, useState } from "react";
-import reducer from "../_reducers/index";
-import axios from "axios";
+// import React, { useState, ReactElement, useEffect } from "react";
+// import axios from "axios";
+// import { Qna } from "../types";
+// import { ActionType } from "../_actions/index";
+// interface Props extends Qna {
+//   children: ReactElement;
+// }
 
-export const QuestionsContext = createContext(null);
-export const QuestionProvider = ({ children }) => {
-  const [mockData, setMockdata] = useState([]);
-  const initialState = {
-    questions: mockData,
-    isLogin: false,
-  };
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const idRef = useRef(3);
+// interface QuestionsContextValue {
+//   state: {
+//     question: Qna[];
+//     isLogin: boolean;
+//   };
+//   dispatch: React.Dispatch<ActionType>; // reducer의 액션 타입에 따라 더 구체적으로 정의 가능
+//   idRef: React.MutableRefObject<number>;
+// }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("/data/mock.json");
-        console.log("[QuestionProvider]fetchData ---> ", response);
-        if (response.data) {
-          setMockdata(response.data);
-        } else {
-          alert("mock data 없음");
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchData();
-  }, []);
+// export const QuestionsContext =
+//   React.createContext<QuestionsContextValue | null>(null);
 
-  return (
-    <QuestionsContext.Provider
-      value={{
-        state,
-        dispatch,
-        idRef,
-      }}
-    >
-      {children}
-    </QuestionsContext.Provider>
-  );
-};
+// export const QuestionProvider = ({ children }: Props) => {
+
+//   return (
+//     <QuestionsContext.Provider
+//       value={{
+//         state,
+//         dispatch,
+//         idRef,
+//       }}
+//     >
+//       {children}
+//     </QuestionsContext.Provider>
+//   );
+// };

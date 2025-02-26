@@ -5,9 +5,16 @@ import {
   LOGIN,
   AUTH,
   REGISTER,
+  SET_QUESTIONS,
 } from "../_actions/index";
+import { Qna, ActionTypes } from "../types";
 
-export default function reducer(state, action) {
+interface State {
+  questions: Qna[];
+  isLogin: boolean;
+}
+
+export default function reducer(state: State, action: ActionTypes) {
   console.log("[reducer] state ===> ", state);
   console.log("[reducer] action ===> ", action);
 
@@ -51,6 +58,11 @@ export default function reducer(state, action) {
         isLogin: action.isLogin,
         isAuth: action.isAuth,
         userData: action.data,
+      };
+    case SET_QUESTIONS:
+      return {
+        ...state,
+        questions: action.data,
       };
     default:
       return state;
