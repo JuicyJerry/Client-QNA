@@ -3,10 +3,11 @@ import Axios from "axios";
 import { QnaDispatchContext } from "../App";
 import { useNavigate } from "react-router-dom";
 import { RegisterStyle } from "../styles/index.js";
+import TossAuthentication from "../features/TossAuthentication.js";
 
 const Register = () => {
   const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
+  const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const { onRegister } = useContext(QnaDispatchContext)!;
@@ -20,8 +21,8 @@ const Register = () => {
   const onPasswordHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.currentTarget.value);
   };
-  const onNameHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setName(event.currentTarget.value);
+  const onNicknameHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNickname(event.currentTarget.value);
   };
   const onConfirmPasswordHandler = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -70,28 +71,44 @@ const Register = () => {
   };
 
   return (
-    <div className="register">
-      <RegisterStyle.RegisterContainer>
+    <div>
+      <RegisterStyle.RegisterForm className="register">
+        <h3>회원가입</h3>
         <form className="form" onSubmit={onSubmitHandler}>
-          <label>Email</label>
-          <input type="email" value={email} onChange={onEmailHandler} />
-          <label>Name</label>
-          <input type="text" value={name} onChange={onNameHandler} />
-          <label>Password</label>
+          <label className="sr-only">Email</label>
           <input
+            placeholder="Email"
+            type="email"
+            value={email}
+            onChange={onEmailHandler}
+          />
+          <label className="sr-only">Nickname</label>
+          <input
+            placeholder="Nickname"
+            type="text"
+            value={nickname}
+            onChange={onNicknameHandler}
+          />
+          <label className="sr-only">Password</label>
+          <input
+            placeholder="Password"
             type="password"
             value={password}
             onChange={onPasswordHandler}
           />
-          <label>Confirm Password</label>
+          <label className="sr-only">Confirm Password</label>
           <input
+            placeholder="Confirm Password"
             type="password"
             value={confirmPassword}
             onChange={onConfirmPasswordHandler}
           />
-          <button type="submit">Register</button>
+          <TossAuthentication />
+          <button className="btn-outline-success btn-round" type="submit">
+            Register
+          </button>
         </form>
-      </RegisterStyle.RegisterContainer>
+      </RegisterStyle.RegisterForm>
     </div>
   );
 };

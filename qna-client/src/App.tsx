@@ -104,7 +104,7 @@ function App() {
         });
       },
       dispatch,
-      setIsLogin: () => setIsLogin(true),
+      setIsLogin: () => setIsLogin(!isLogin),
       isLogin,
     };
   }, [dispatch, isLogin]);

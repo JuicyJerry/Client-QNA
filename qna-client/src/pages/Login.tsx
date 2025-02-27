@@ -1,8 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Axios from "axios";
 import { QnaDispatchContext } from "../App";
-import { useNavigate } from "react-router-dom";
 import { LoginStyle } from "../styles/index.js";
+import { Link, useNavigate } from "react-router-dom";
+import GoogleLoginButton from "../features/GoogleLoginButton";
+import KakaoLoginButton from "../features/KakaoLoginButton";
+import axios from "axios";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -10,61 +13,122 @@ const Login = () => {
   const { onLogin } = useContext(QnaDispatchContext)!;
   const navigate = useNavigate();
 
+  const onErrorMessageHandler = (isActive: boolean) => {
+    console.log("[onErrorMessageHandler] Validation Process ===> ", isActive);
+
+    if (isActive) document.querySelector(".err-msg")?.classList.add("active");
+    else document.querySelector(".err-msg")?.classList.remove("active");
+  };
+
   const onEmailHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    onErrorMessageHandler(false);
     setEmail(event.currentTarget.value);
   };
+
   const onPasswordHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    onErrorMessageHandler(false);
     setPassword(event.currentTarget.value);
   };
+
   const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
-    console.log("check");
+    console.log("[onSubmitHandler] check ===> ", email);
+    console.log("[onSubmitHandler] check ===> ", password);
+
     event.preventDefault();
-    console.log(email);
-    console.log(password);
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    const body = {
-      email: email,
-      password: password,
-    };
+    if (!email || !password || !emailRegex.test(email) || password.length < 6) {
+      console.log("[Validation Fail] !email ===> ", !email);
+      console.log("[Validation Fail] !email ===> ", !password);
+      console.log("[Validation Fail] !email ===> ", !emailRegex.test(email));
+      console.log("[Validation Fail] !email ===> ", password.length < 6);
+      return onErrorMessageHandler(true);
+    } else {
+      console.log("Validation Success");
+      const body = {
+        email: email,
+        password: password,
+      };
 
-    // Axios.post("/api/users/login", body)
-    Axios.post("/api/users/login", body)
-      // Axios.post("http://localhost:5000/api/users/login", body)
-      .then((response) => {
-        if (response.data.loginSuccess) {
-          onLogin({
-            isLogin: true,
-            message: "로그인 성공",
-          });
-          navigate("/");
-        } else {
+      // Axios.post("/api/users/login", body)
+      Axios.post("/api/users/login", body)
+        // Axios.post("http://localhost:5000/api/users/login", body)
+        .then((response) => {
+          if (response.data.loginSuccess) {
+            onLogin({
+              isLogin: true,
+              message: "로그인 성공",
+            });
+            navigate("/");
+          } else {
+            console.log("Validation Fail");
+
+            onLogin({
+              isLogin: false,
+              message: "로그인 실패",
+            });
+            alert("Error");
+
+            return onErrorMessageHandler(true);
+          }
+        })
+        .catch((err) => {
+          console.log("login err ==> ", err);
           onLogin({
             isLogin: false,
-            message: "로그인 실패",
+            message: "로그인 에러 발생",
           });
-          alert("Error");
-        }
-      })
-      .catch((err) => {
-        console.log("login err ==> ", err);
-        onLogin({
-          isLogin: false,
-          message: "로그인 에러 발생",
+
+          return onErrorMessageHandler(true);
         });
-      });
+    }
   };
 
+  const link = { path: "/find", label: "비밀번호 찾기" };
+
   return (
-    <div className="login">
-      <LoginStyle.LoginForm>
+    <div>
+      <LoginStyle.LoginForm className="login">
+        <h3>로그인</h3>
         <form onSubmit={onSubmitHandler}>
-          <label>Email</label>
-          <input type="email" value={email} onChange={onEmailHandler} />
-          <label>Password</label>
+          <label className="sr-only">Email</label>
+          <input
+            type="email"
+            value={email}
+            onChange={onEmailHandler}
+            placeholder="Email"
+          />
+          <label className="sr-only">Password</label>
           <input
             type="password"
             value={password}
             onChange={onPasswordHandler}
+            placeholder="Password"
+          />
+          <div className="user-support">
+            <p className="err-msg">이메일 또는 비밀번호를 확인해주세요.</p>
+            <Link
+              key={link.path}
+              to={link.path}
+              className={
+                location.pathname === link.path ? "find-pw active" : "find-pw "
+              }
+            >
+              {link.label}
+            </Link>
+          </div>
+          <button className="btn-outline-success btn-round" type="submit">
+            Login
+          </button>
+
+          <div className="login-divider"></div>
+
+          <div className="social-login">
+            {/* 구글 */}
+            <GoogleLoginButton />
+            {/* 카카오 */}
+            <KakaoLoginButton />
+          </div>
           />
           <button type="submit">Login</button>
         </form>

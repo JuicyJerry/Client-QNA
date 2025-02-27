@@ -2,6 +2,8 @@ import { useContext } from "react";
 import { QnaDispatchContext } from "../App";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { NavigationStyle } from "../styles/index";
+import logo from "../imgs/logo.svg";
 
 const Navigation = () => {
   console.log("[Navigation]isLogin ---> ", useContext(QnaDispatchContext));
@@ -29,38 +31,60 @@ const Navigation = () => {
   };
 
   return (
-    <>
-      <nav className="links">
-        {navLinks.map((link) => (
-          <Link
-            key={link.path}
-            to={link.path}
-            className={location.pathname === link.path ? "active" : ""}
-          >
-            {link.label}
-          </Link>
-        ))}
+    <NavigationStyle.NavigationContainer className="links">
+      <div className="links-logo">
+        <a className="navbar-brand" href="/">
+          <img className="logo" src={logo} alt="QNA logo" />
+        </a>
+      </div>
 
-        {context.isLogin && (
-          <Link
-            to={"/register"}
-            className={location.pathname === "/register" ? "active" : ""}
-          >
-            Register
-          </Link>
-        )}
-        {context.isLogin ? (
-          <Link
-            to={"/login"}
-            className={location.pathname === "/login" ? "active" : ""}
-          >
-            Login
-          </Link>
-        ) : (
-          <button onClick={onClickHandler}>로그아웃</button>
-        )}
-      </nav>
-    </>
+      <section>
+        <nav className="nav">
+          {navLinks.map((link) => (
+            <Link
+              key={link.path}
+              to={link.path}
+              className={
+                location.pathname === link.path
+                  ? "nav-link active"
+                  : "nav-link "
+              }
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+        <span className="navbar-divider"></span>
+        <div>
+          {!context.isLogin ? (
+            <Link
+              to={"/login"}
+              className={
+                location.pathname === "/login"
+                  ? "btn btn-success btn-round active"
+                  : "btn"
+              }
+            >
+              Login
+            </Link>
+          ) : (
+            <button onClick={onClickHandler}>로그아웃</button>
+          )}
+          {!context.isLogin && (
+            <Link
+              to={"/register"}
+              className={
+                location.pathname === "/register"
+                  ? "btn btn-success btn-round active"
+                  : "btn"
+              }
+            >
+              Register
+            </Link>
+          )}
+        </div>
+      </section>
+    </NavigationStyle.NavigationContainer>
   );
 };
 
