@@ -129,6 +129,8 @@ const Login = () => {
             {/* 카카오 */}
             <KakaoLoginButton />
           </div>
+          />
+          <button type="submit">Login</button>
         </form>
       </LoginStyle.LoginForm>
     </div>
