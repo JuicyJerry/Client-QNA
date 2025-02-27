@@ -6,7 +6,7 @@ export const ControllerContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  border: 1px solid #000;
+  // border: 1px solid #000;
   padding: 10px;
   border-radius: 5px;
 

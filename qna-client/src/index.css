@@ -1,3 +1,54 @@
+/* CSS Initialization (with reset.css) */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  font-size: 62.5%; /* 1rem을 10px로 변환 (원래 16px) */
+}
+body {
+  font-family: "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  min-width: 320px;
+  line-height: 1.25;
+}
+button {
+  background: none;
+  color: inherit;
+  border: none;
+  cursor: pointer;
+  outline: inherit;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+ol ul,
+li {
+  list-style: none;
+}
+input:focus {
+  outline: none;
+}
+
+/* 기본 폰트 설정 추가 (디자인 깨짐 방지) */
+input,
+textarea,
+button {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* 접근성 고려(키보드 포커스 표시) */
+:focus {
+  outline: none;
+}
+:focus-visible {
+  outline: 2px solid #007bff; /* 접근성 대비 색상 */
+}
+
 html,
 body,
 div,
@@ -100,9 +151,7 @@ nav,
 section {
   display: block;
 }
-body {
-  line-height: 1;
-}
+
 ol,
 ul {
   list-style: none;
@@ -123,31 +172,33 @@ table {
   border-spacing: 0;
 }
 
-/* App */
-.App {
-  width: 400px;
-  /* height: 100vh; */
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #26ab56;
-  border-radius: 5px;
+/* 반응형 이미지 설정 */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
-.App h1 {
-  text-align: center;
-  font-size: 32px;
-  padding: 16px 0;
+
+/* SVG 아이콘 크기 조절 문제 방지 */
+svg {
+  width: 100%;
+  height: auto;
 }
-.App .links {
-  display: flex;
-  justify-content: space-evenly;
-  margin-bottom: 20px;
+body {
+  background-color: #fff;
+  color: #333;
 }
-.App .links a {
-  text-decoration: none;
-  color: #fff;
-  font-size: 15px;
+button,
+input[type="submit"],
+input[type="button"] {
+  cursor: pointer;
 }
-.App .links a.active {
-  text-decoration: underline;
-  font-weight: bold;
+
+/* Scrollbar Style */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: #aaa;
+  border-radius: 3px;
 }

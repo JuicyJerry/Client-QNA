@@ -7,7 +7,7 @@ export const NotfoundContainer = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  border: 1px solid #000;
+  // border: 1px solid #000;
   border-radius: 4px;
   padding: 10px;
 `;

@@ -113,7 +113,6 @@ function App() {
     <div className="App">
       <QnaStateContext.Provider value={qnas}>
         <QnaDispatchContext.Provider value={memoizedDispatch}>
-          <h1>Question And Answer</h1>
           <Navigation />
           <Routes>
             <Route

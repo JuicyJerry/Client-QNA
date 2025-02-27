@@ -3,7 +3,6 @@ import axios from "axios";
 import { HomeStyle } from "../styles/index";
 import Header from "../components/Header";
 
-
 const Home = () => {
   useEffect(() => {
     axios
