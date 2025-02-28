@@ -13,7 +13,7 @@ const Controller = () => {
 
   const qnas = useContext(QnaStateContext);
   if (!qnas) throw new Error("[useQnaActions]QnaDispatchContext is not found");
-  const idRef = useRef(qnas.state?.question.length);
+  const idRef = useRef(qnas.questions.length);
 
   const { onCreate } = useContext(QnaDispatchContext)!;
   // const { onCreate } = useQnaActions();
@@ -39,57 +39,72 @@ const Controller = () => {
       },
       isDone: true,
     });
+    alert(`퀴즈가 추가되었습니다.\n 총 ${idRef.current}개 입니다.`);
+    setQuestion("");
+    setAnswer("");
   };
 
   return (
-    <div className="controller">
-      <ControllerStyle.ControllerQuestion>
-        <div className="question">
-          <label htmlFor="question">Question: </label>
-          <input
-            onChange={onChangeInput}
-            type="text"
-            name="question"
-            id="question"
-          />
-          {question.length < 5 && (
-            <span className="warning">5글자 이상 입력해주세요</span>
-          )}
-        </div>
-      </ControllerStyle.ControllerQuestion>
+    <div
+      style={{ display: "flex", gap: "20px", flexDirection: "column" }}
+      className="controller"
+    >
+      <h3>새로운 낱말카드 세트 만들기</h3>
+      <div style={{ display: "flex", gap: "20px" }}>
+        <ControllerStyle.ControllerQuestion>
+          <div className="question">
+            <label className="sr-only" htmlFor="question">
+              Question:{" "}
+            </label>
+            <input
+              onChange={onChangeInput}
+              type="text"
+              name="question"
+              id="question"
+              value={question}
+            />
+            {question.length < 5 && (
+              <span className="warning">5글자 이상 입력해주세요</span>
+            )}
+          </div>
+        </ControllerStyle.ControllerQuestion>
 
-      <ControllerStyle.ControllerAnswer>
-        <div className="answer">
-          <label htmlFor="answer">Answer: </label>
-          <textarea
-            onChange={onChangeInput}
-            id="answer"
-            name="answer"
-            rows={5}
-            cols={33}
-          ></textarea>
-          {answer.length < 5 && (
-            <span className="warning">5글자 이상 입력해주세요</span>
-          )}
-        </div>
-      </ControllerStyle.ControllerAnswer>
+        <ControllerStyle.ControllerAnswer>
+          <div className="answer">
+            <label className="sr-only" htmlFor="answer">
+              Answer:{" "}
+            </label>
+            <textarea
+              onChange={onChangeInput}
+              id="answer"
+              name="answer"
+              rows={5}
+              cols={33}
+              value={answer}
+            ></textarea>
+            {answer.length < 5 && (
+              <span className="warning">5글자 이상 입력해주세요</span>
+            )}
+          </div>
+        </ControllerStyle.ControllerAnswer>
 
-      <ControllerStyle.ControllerSaveButton>
-        <div className="save">
-          <button
-            onClick={() => {
-              if (question.length >= 5 && answer.length >= 5) {
-                onClickButton();
-              } else {
-                alert("먼저, Question과 Answer를 입력해주세요.");
-              }
-            }}
-            type="button"
-          >
-            추가
-          </button>
-        </div>
-      </ControllerStyle.ControllerSaveButton>
+        <ControllerStyle.ControllerSaveButton>
+          <div className="save">
+            <button
+              onClick={() => {
+                if (question.length >= 5 && answer.length >= 5) {
+                  onClickButton();
+                } else {
+                  alert("먼저, Question과 Answer를 입력해주세요.");
+                }
+              }}
+              type="button"
+            >
+              추가
+            </button>
+          </div>
+        </ControllerStyle.ControllerSaveButton>
+      </div>
     </div>
   );
 };
