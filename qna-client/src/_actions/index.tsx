@@ -6,6 +6,7 @@ export const CREATE = "CREATE";
 export const UPDATE = "UPDATE";
 export const DELETE = "DELETE";
 export const LOGIN = "LOGIN";
+export const LOGOUT = "LOGOUT";
 export const REGISTER = "REGISTER";
 export const AUTH = "AUTH";
 export const SET_QUESTIONS = "SET_QUESTIONS";
@@ -63,6 +64,16 @@ export const useQnaActions = () => {
     []
   );
 
+  const onLogout = useCallback(
+    () =>
+      dispatch({
+        type: LOGOUT,
+        isLogin: false,
+        message: "로그아웃 성공공",
+      }),
+    []
+  );
+
   const onRegister = useCallback(
     (userInfo: UserInfo) =>
       dispatch({
@@ -88,6 +99,7 @@ export const useQnaActions = () => {
     onUpdate,
     onDelete,
     onLogin,
+    onLogout,
     onRegister,
     onAuth,
   };

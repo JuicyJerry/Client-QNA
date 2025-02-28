@@ -51,7 +51,7 @@ const Login = () => {
       };
 
       // Axios.post("/api/users/login", body)
-      Axios.post("/api/users/login", body)
+      Axios.post("/api/users/login", body, { withCredentials: true })
         // Axios.post("http://localhost:5000/api/users/login", body)
         .then((response) => {
           if (response.data.loginSuccess) {

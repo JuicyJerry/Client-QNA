@@ -13,6 +13,7 @@ import {
   Notfound,
   Register,
   Viewer,
+  GoogleRedirectionPage,
 } from "./pages/index";
 import {
   HomeStyle,
@@ -36,8 +37,6 @@ function App() {
   console.log("Here is App Cmp");
 
   const [mockData, setMockdata] = useState<Qna[]>([]);
-  const [isLogin, setIsLogin] = useState(false);
-
   const initialState = {
     questions: mockData,
     isLogin: false,
@@ -68,8 +67,12 @@ function App() {
    */
 
   useEffect(() => {
-    console.log("isLogin ===> ", isLogin);
-  }, [isLogin]);
+    axios.get("/api/users/auth", { withCredentials: true }).then((response) => {
+      if (response.data.isAuth) {
+        dispatch({ type: "AUTH", isAuth: true, isLogin: true });
+      }
+    });
+  }, [dispatch]);
 
   const memoizedDispatch = useMemo(() => {
     return {
@@ -83,10 +86,21 @@ function App() {
         dispatch({ type: "DELETE", targetId });
       },
       onLogin: (userInfo: { isLogin: boolean; message: string }) => {
+        console.log("[App] userInfo.isLogin ===> ", userInfo.isLogin);
+
         dispatch({
           type: "LOGIN",
           isLogin: userInfo.isLogin,
           message: userInfo.message,
+        });
+      },
+      onLogout: () => {
+        console.log("[App] userInfo.isLogout ===> ");
+
+        dispatch({
+          type: "LOGIN",
+          isLogin: false,
+          message: "로그아웃 작동",
         });
       },
       onRegister: (userInfo: { isLogin: boolean; message: string }) => {
@@ -104,10 +118,8 @@ function App() {
         });
       },
       dispatch,
-      setIsLogin: () => setIsLogin(!isLogin),
-      isLogin,
     };
-  }, [dispatch, isLogin]);
+  }, [dispatch]);
 
   return (
     <div className="App">
@@ -175,6 +187,19 @@ function App() {
                 </Auth>
               }
             />
+
+            <Route
+              path="oauthgoogle"
+              element={
+                <Auth option={null}>
+                  {/* <NotfoundStyle.NotfoundContainer> */}
+                  <GoogleRedirectionPage />
+                  {/* </NotfoundStyle.NotfoundContainer> */}
+                </Auth>
+              }
+            />
+
+            {/* <Route path="/oauthgoogle" element={<GoogleRedirectionPage />} /> */}
             <Route
               path="*"
               element={

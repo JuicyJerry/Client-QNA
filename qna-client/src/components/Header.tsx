@@ -36,9 +36,9 @@ const Header = () => {
                 Take Quiz
               </Link>
               <Link
-                to={"/list"}
+                to={"/controller"}
                 className={
-                  location.pathname === "/list"
+                  location.pathname === "/controller"
                     ? "btn active"
                     : "btn btn-success btn-round"
                 }

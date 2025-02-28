@@ -6,3 +6,4 @@ export { default as Navigation } from "./Navigation";
 export { default as Notfound } from "./Notfound";
 export { default as Register } from "./Register";
 export { default as Viewer } from "./Viewer";
+export { default as GoogleRedirectionPage } from "./GoogleRedirectionPage";

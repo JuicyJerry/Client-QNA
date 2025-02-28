@@ -3,6 +3,7 @@ import {
   UPDATE,
   DELETE,
   LOGIN,
+  LOGOUT,
   AUTH,
   REGISTER,
   SET_QUESTIONS,
@@ -47,6 +48,12 @@ export default function reducer(state: State, action: ActionTypes) {
         ...state,
         isLogin: action.isLogin,
       };
+    case LOGOUT:
+      return {
+        ...state,
+        isLogin: action.isLogin,
+        message: action.message,
+      };
     case REGISTER:
       return {
         ...state,
@@ -57,7 +64,7 @@ export default function reducer(state: State, action: ActionTypes) {
         ...state,
         isLogin: action.isLogin,
         isAuth: action.isAuth,
-        userData: action.data,
+        // userData: action.data,
       };
     case SET_QUESTIONS:
       return {

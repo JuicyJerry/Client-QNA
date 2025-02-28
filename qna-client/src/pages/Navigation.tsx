@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { QnaDispatchContext } from "../App";
+import { QnaStateContext, QnaDispatchContext } from "../App";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { NavigationStyle } from "../styles/index";
@@ -7,8 +7,10 @@ import logo from "../imgs/logo.svg";
 
 const Navigation = () => {
   console.log("[Navigation]isLogin ---> ", useContext(QnaDispatchContext));
-  const context = useContext(QnaDispatchContext)!;
-  if (!context) throw new Error("[Navigation]isLogin is not found");
+  const { isLogin } = useContext(QnaStateContext)!;
+  const { onLogout } = useContext(QnaDispatchContext)!;
+  console.log("[Navigation]isLogin 2---> ", onLogout);
+  console.log("[Navigation]isLogin 3---> ", isLogin);
 
   const navigate = useNavigate();
 
@@ -20,14 +22,32 @@ const Navigation = () => {
   ];
 
   const onClickHandler = () => {
-    axios.get("/api/users/logout").then((response) => {
-      console.log(response.data);
-      if (response.data.logoutSuccess) {
-        navigate("/login");
-      } else {
-        alert("로그아웃 실패!");
-      }
-    });
+    // const token = localStorage.getItem("user");
+    axios
+      .get(
+        "/api/users/logout",
+        // {
+        //   headers: {
+        //     Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰 추가
+        //   },
+        // },
+        { withCredentials: true }
+      )
+      .then((response) => {
+        console.log(response);
+        if (response.data.logoutSuccess) {
+          console.log("logoutSuccess");
+          onLogout();
+          navigate("/login");
+        } else {
+          console.log("try again!");
+          alert("로그아웃 실패!");
+        }
+      })
+      .catch((err) => {
+        console.log("Logout error ===> ", err);
+        alert("로그아웃 중 오류 발생!");
+      });
   };
 
   return (
@@ -56,7 +76,7 @@ const Navigation = () => {
         </nav>
         <span className="navbar-divider"></span>
         <div>
-          {!context.isLogin ? (
+          {!isLogin ? (
             <Link
               to={"/login"}
               className={
@@ -70,7 +90,7 @@ const Navigation = () => {
           ) : (
             <button onClick={onClickHandler}>로그아웃</button>
           )}
-          {!context.isLogin && (
+          {!isLogin && (
             <Link
               to={"/register"}
               className={
