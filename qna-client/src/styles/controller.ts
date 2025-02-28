@@ -1,14 +1,22 @@
 import styled from "@emotion/styled";
 
 export const ControllerContainer = styled.div`
-  box-sizing: border-box;
-  height: 350px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  // border: 1px solid #000;
-  padding: 10px;
-  border-radius: 5px;
+  // width: 400px;
+  width: fit-content;
+  padding: 2rem;
+  border-radius: 2rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  // min-height: 400px;
+
+  h3 {
+    font-size: 28px;
+  }
+
+  // .container {
+  //   width: 100%;
+  //   display: flex;
+  //   gap: 20px;
+  // }
 
   .warning {
     padding-top: 4px;
@@ -21,6 +29,7 @@ export const ControllerQuestion = styled.div`
   .question {
     display: flex;
     flex-direction: column;
+    height: 100px;
   }
 
   .question input[type="text"] {
@@ -31,6 +40,9 @@ export const ControllerQuestion = styled.div`
     min-height: 80px;
     border-radius: 5px;
     height: auto;
+    height: 50px;
+    min-height: 50px;
+    padding: 5px;
   }
 `;
 
@@ -38,6 +50,7 @@ export const ControllerAnswer = styled.div`
   .answer {
     display: flex;
     flex-direction: column;
+    height: 100px;
   }
   .answer {
     min-height: 80px;
@@ -46,6 +59,9 @@ export const ControllerAnswer = styled.div`
   .answer textarea {
     resize: none;
     border-radius: 5px;
+    height: 50px;
+    min-height: 50px;
+    padding: 5px;
   }
 `;
 
@@ -60,6 +76,9 @@ export const ControllerSaveButton = styled.div`
     background-color: #fff;
     border-radius: 5px;
     font-weight: 500;
+    height: 50px;
+    background-color: #0051ff;
+    color: #fff;
   }
 `;
 
