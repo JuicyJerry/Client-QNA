@@ -46,7 +46,35 @@ export const RegisterForm = styled.div`
     flex-direction: column;
     gap: 20px;
   }
+  form.tel {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+  }
+  form.tel + input[type="number"] {
+    flex-wrap: wrap;
+  }
+  form.tel button {
+    background-color: #0051ff;
+    color: #fff;
+    height: 40px;
+    border-radius: 5px;
+    width: 84px;
+    font-size: 0.875rem;
+    height: 40px;
+    white-space: nowrap;
+    padding: 5px;
+  }
+  form.tel input[type="tel"] {
+    width: 100%;
+  }
+  form.tel input[type="tel"] + input[type="number"] {
+    width: 70%;
+  }
+
   form input[type="email"],
+  form input[type="number"],
+  form input[type="tel"],
   form input[type="text"],
   form input[type="password"] {
     height: 40px;
@@ -60,6 +88,29 @@ export const RegisterForm = styled.div`
     padding-right: 1rem;
     border-radius: 10rem;
   }
+
+  .pw-condition {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .pw-status {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    width: 14px;
+    height: 23px;
+  }
+
+  // .pw-condition.basic img {
+  //   display: block;
+  // }
+  // .pw-condition.success img {
+  //   display: block;
+  // }
+  // .pw-condition.cancel img {
+  //   display: block;
+  // }
 `;
 
 export default {
