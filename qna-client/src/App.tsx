@@ -27,6 +27,7 @@ import {
 import "./App.css";
 import axios from "axios";
 import { Qna, QnasContextValue, QnaDispatchContextType } from "./types";
+import { LoadingProvider, useLoading } from "./components/LoadingSpinner";
 
 export const QnaStateContext = createContext<QnasContextValue | null>(null);
 export const QnaDispatchContext = createContext<QnaDispatchContextType | null>(
@@ -34,8 +35,8 @@ export const QnaDispatchContext = createContext<QnaDispatchContextType | null>(
 );
 
 function App() {
-  console.log("Here is App Cmp");
-
+  // console.log("Here is App Cmp");
+  // const { isLoading, setIsLoading } = useLoading();
   const [mockData, setMockdata] = useState<Qna[]>([]);
   const initialState = {
     questions: mockData,
@@ -44,23 +45,24 @@ function App() {
   const [qnas, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("/data/mockData.json");
-        console.log("[QuestionProvider]fetchData ---> ", response);
-
+    // setIsLoading(true);
+    axios
+      .get("/data/mockData.json")
+      .then((response) => {
         if (response.data) {
           setMockdata(response.data);
           dispatch({ type: "SET_QUESTIONS", data: response.data });
         } else {
           alert("mock data 없음");
+          setMockdata(response.data);
         }
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchData();
+      })
+      .catch((error) => {
+        console.error("API 호출 오류: ", error);
+      });
+    // .finally(() => setIsLoading(false));
   }, []);
+  // }, [setIsLoading]);
   // }, [mockData]); // 무한 루프
   /**
    * setMockdata 상태 업데이트 -> mockData 변경 -> useEffect 트리거 (무한 루프)
@@ -130,61 +132,73 @@ function App() {
             <Route
               path="/"
               element={
-                <Auth option={null}>
-                  <HomeStyle.HomeContainer>
-                    <Home />
-                  </HomeStyle.HomeContainer>
-                </Auth>
+                <LoadingProvider value={useLoading}>
+                  <Auth option={null}>
+                    <HomeStyle.HomeContainer>
+                      <Home />
+                    </HomeStyle.HomeContainer>
+                  </Auth>
+                </LoadingProvider>
               }
             />
             <Route
               path="/list"
               element={
-                <Auth option={true}>
-                  <ListStyle.ListContainer>
-                    <List />
-                  </ListStyle.ListContainer>
-                </Auth>
+                <LoadingProvider value={useLoading}>
+                  <Auth option={true}>
+                    <ListStyle.ListContainer>
+                      <List />
+                    </ListStyle.ListContainer>
+                  </Auth>
+                </LoadingProvider>
               }
             />
             <Route
               path="/viewer"
               element={
-                <Auth option={true}>
-                  <ViewerStyle.viewerContainer>
-                    <Viewer />
-                  </ViewerStyle.viewerContainer>
-                </Auth>
+                <LoadingProvider value={useLoading}>
+                  <Auth option={true}>
+                    <ViewerStyle.viewerContainer>
+                      <Viewer />
+                    </ViewerStyle.viewerContainer>
+                  </Auth>
+                </LoadingProvider>
               }
             />
             <Route
               path="/controller"
               element={
-                <Auth option={true}>
-                  <ControllerStyle.ControllerContainer>
-                    <Controller />
-                  </ControllerStyle.ControllerContainer>
-                </Auth>
+                <LoadingProvider value={useLoading}>
+                  <Auth option={true}>
+                    <ControllerStyle.ControllerContainer>
+                      <Controller />
+                    </ControllerStyle.ControllerContainer>
+                  </Auth>
+                </LoadingProvider>
               }
             />
             <Route
               path="/login"
               element={
-                <Auth option={false}>
-                  <LoginStyle.LoginContainer>
-                    <Login />
-                  </LoginStyle.LoginContainer>
-                </Auth>
+                <LoadingProvider value={useLoading}>
+                  <Auth option={false}>
+                    <LoginStyle.LoginContainer>
+                      <Login />
+                    </LoginStyle.LoginContainer>
+                  </Auth>
+                </LoadingProvider>
               }
             />
             <Route
               path="/register"
               element={
-                <Auth option={false}>
-                  <RegisterStyle.RegisterContainer>
-                    <Register />
-                  </RegisterStyle.RegisterContainer>
-                </Auth>
+                <LoadingProvider value={useLoading}>
+                  <Auth option={false}>
+                    <RegisterStyle.RegisterContainer>
+                      <Register />
+                    </RegisterStyle.RegisterContainer>
+                  </Auth>
+                </LoadingProvider>
               }
             />
 
