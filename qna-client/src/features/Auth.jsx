@@ -14,7 +14,7 @@ const Auth = ({ children, option, adminRoute = null }) => {
   //   useQnaActions();
   const { onAuth } = useContext(QnaDispatchContext);
   const navigate = useNavigate();
-  console.log("[auth] onAuth ===> ", onAuth);
+  // console.log("[auth] onAuth ===> ", onAuth);
 
   // 아무나 진입 가능한 페이지 : Home, About
   // 로그인 회원만 집입 가능 페이지 : Viewer, List

@@ -16,8 +16,8 @@ interface State {
 }
 
 export default function reducer(state: State, action: ActionTypes) {
-  console.log("[reducer] state ===> ", state);
-  console.log("[reducer] action ===> ", action);
+  // console.log("[reducer] state ===> ", state);
+  // console.log("[reducer] action ===> ", action);
 
   switch (action.type) {
     case CREATE:
