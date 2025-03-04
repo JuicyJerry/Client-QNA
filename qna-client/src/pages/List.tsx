@@ -10,7 +10,7 @@ const List = () => {
   const qnas = useContext(QnaStateContext);
   const [visibleQuestions, setVisibleQuestions] = useState<Qna[]>([]);
   const [page, setPage] = useState(1);
-  const itemsPerPage = 12; // 한 번에 불러올 개수
+  const itemsPerPage = 8; // 한 번에 불러올 개수
   const listRef = useRef<HTMLUListElement | null>(null); // 리스트 ul 요소 참조
 
   useEffect(() => {
@@ -24,11 +24,14 @@ const List = () => {
   // 스크롤 이벤트 감지하여 추가 데이터 로딩
   useEffect(() => {
     const listElement = listRef.current;
+    console.log("listElement ---> ", listElement);
     if (!listElement) return;
 
     const handleScroll = () => {
       const { scrollTop, scrollHeight, clientHeight } = listElement;
-      if (scrollTop + clientHeight >= scrollHeight - 50) {
+      console.log("scrollTop + clientHeight ---> ", scrollTop + clientHeight);
+      console.log("scrollHeight - 5 ---> ", scrollHeight - 5, "\n\n");
+      if (scrollTop + clientHeight >= scrollHeight - 5) {
         console.log("[handleScroll] loadMoreQuestions 실행 ===> ");
         loadMoreQuestions();
       }
@@ -45,7 +48,7 @@ const List = () => {
       qnas.questions.length
     );
     console.log(
-      "[loadMoreQuestions]  visibleQuestions.length ===> ",
+      "[loadMoreQuestions] visibleQuestions.length ===> ",
       visibleQuestions.length
     );
     if (qnas.questions.length > visibleQuestions.length) {

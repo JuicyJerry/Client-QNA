@@ -13,6 +13,8 @@ import {
   Register,
   Viewer,
   GoogleRedirectionPage,
+  Detail,
+  DetailResult,
 } from "./pages/index";
 import {
   HomeStyle,
@@ -22,6 +24,7 @@ import {
   LoginStyle,
   RegisterStyle,
   NotfoundStyle,
+  DetailCardStyle,
 } from "./styles/index";
 import "./App.css";
 import axios from "axios";
@@ -206,6 +209,28 @@ function App() {
                   {/* <NotfoundStyle.NotfoundContainer> */}
                   <GoogleRedirectionPage />
                   {/* </NotfoundStyle.NotfoundContainer> */}
+                </Auth>
+              }
+            />
+
+            <Route
+              path="/detail/:id"
+              element={
+                <Auth option={null}>
+                  <DetailCardStyle.DetailContainer>
+                    <Detail />
+                  </DetailCardStyle.DetailContainer>
+                </Auth>
+              }
+            />
+
+            <Route
+              path="detailResult"
+              element={
+                <Auth option={null}>
+                  <DetailCardStyle.DetailResultContainer>
+                    <DetailResult />
+                  </DetailCardStyle.DetailResultContainer>
                 </Auth>
               }
             />
