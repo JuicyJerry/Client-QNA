@@ -10,7 +10,8 @@ const Card = ({ question, answer, index, total, prevCard, nextCard }) => {
 
   useEffect(() => {
     setIsFlipped(false);
-  }, [index]);
+  }, []);
+  // }, [index]);
 
   return (
     <div

@@ -7,9 +7,14 @@ interface Props {
 
 export default function QnaList(props: Props) {
   return (
-    <div>
-      <p className={`list-${props.index}`}>{props.element.content.question}</p>
-      <p>{props.element.content.answer}</p>
-    </div>
+    <a href="">
+      <h6 className={`list-${props.index}`}>
+        {props.element.content.question}
+      </h6>
+      <p>
+        Tags: <code>{props.element.content.tags}</code>
+      </p>
+      {/* <p>{props.element.content.answer}</p> */}
+    </a>
   );
 }
