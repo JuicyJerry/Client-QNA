@@ -3,7 +3,6 @@ import reducer from "./_reducers/index";
 import Auth from "./features/Auth";
 import { Routes, Route } from "react-router-dom";
 // import { useQnaActions } from "./_actions/index";
-
 import {
   Controller,
   Home,
@@ -14,6 +13,8 @@ import {
   Register,
   Viewer,
   GoogleRedirectionPage,
+  Detail,
+  DetailResult,
 } from "./pages/index";
 import {
   HomeStyle,
@@ -23,11 +24,12 @@ import {
   LoginStyle,
   RegisterStyle,
   NotfoundStyle,
+  DetailCardStyle,
 } from "./styles/index";
 import "./App.css";
 import axios from "axios";
 import { Qna, QnasContextValue, QnaDispatchContextType } from "./types";
-import { LoadingProvider, useLoading } from "./components/LoadingSpinner";
+import { useLoading } from "./components/LoadingSpinner";
 
 export const QnaStateContext = createContext<QnasContextValue | null>(null);
 export const QnaDispatchContext = createContext<QnaDispatchContextType | null>(
@@ -35,8 +37,7 @@ export const QnaDispatchContext = createContext<QnaDispatchContextType | null>(
 );
 
 function App() {
-  // console.log("Here is App Cmp");
-  // const { isLoading, setIsLoading } = useLoading();
+  const { isLoading, setIsLoading } = useLoading();
   const [mockData, setMockdata] = useState<Qna[]>([]);
   const initialState = {
     questions: mockData,
@@ -44,37 +45,47 @@ function App() {
   };
   const [qnas, dispatch] = useReducer(reducer, initialState);
 
+  console.log("Here is App Cmp 1-1", isLoading);
   useEffect(() => {
-    // setIsLoading(true);
+    console.log("[App]check: ");
+    setIsLoading(true);
+    // setTimeout(() => {
+    //   console.log("App[setTimeout/check]: start");
+    //   setIsLoading(true);
+    //   console.log("App[setTimeout/check]: end");
+    // }, 3000);
+
     axios
       .get("/data/mockData.json")
       .then((response) => {
         if (response.data) {
+          console.log("Here is App Cmp 3 ---> ", response.data);
           setMockdata(response.data);
           dispatch({ type: "SET_QUESTIONS", data: response.data });
+          setIsLoading(false);
         } else {
           alert("mock data 없음");
           setMockdata(response.data);
+          setIsLoading(false);
         }
       })
       .catch((error) => {
         console.error("API 호출 오류: ", error);
+        setIsLoading(false);
       });
-    // .finally(() => setIsLoading(false));
   }, []);
-  // }, [setIsLoading]);
   // }, [mockData]); // 무한 루프
   /**
    * setMockdata 상태 업데이트 -> mockData 변경 -> useEffect 트리거 (무한 루프)
    */
 
-  useEffect(() => {
-    axios.get("/api/users/auth", { withCredentials: true }).then((response) => {
-      if (response.data.isAuth) {
-        dispatch({ type: "AUTH", isAuth: true, isLogin: true });
-      }
-    });
-  }, [dispatch]);
+  // useEffect(() => {
+  //   axios.get("/api/users/auth", { withCredentials: true }).then((response) => {
+  //     if (response.data.isAuth) {
+  //       dispatch({ type: "AUTH", isAuth: true, isLogin: true });
+  //     }
+  //   });
+  // }, [dispatch]);
 
   const memoizedDispatch = useMemo(() => {
     return {
@@ -121,7 +132,8 @@ function App() {
       },
       dispatch,
     };
-  }, [dispatch]);
+  }, []);
+  // }, [dispatch]);
 
   return (
     <div className="App">
@@ -132,73 +144,61 @@ function App() {
             <Route
               path="/"
               element={
-                <LoadingProvider value={useLoading}>
-                  <Auth option={null}>
-                    <HomeStyle.HomeContainer>
-                      <Home />
-                    </HomeStyle.HomeContainer>
-                  </Auth>
-                </LoadingProvider>
+                <Auth option={null}>
+                  <HomeStyle.HomeContainer>
+                    <Home />
+                  </HomeStyle.HomeContainer>
+                </Auth>
               }
             />
             <Route
               path="/list"
               element={
-                <LoadingProvider value={useLoading}>
-                  <Auth option={true}>
-                    <ListStyle.ListContainer>
-                      <List />
-                    </ListStyle.ListContainer>
-                  </Auth>
-                </LoadingProvider>
+                <Auth option={true}>
+                  <ListStyle.ListContainer>
+                    <List />
+                  </ListStyle.ListContainer>
+                </Auth>
               }
             />
             <Route
               path="/viewer"
               element={
-                <LoadingProvider value={useLoading}>
-                  <Auth option={true}>
-                    <ViewerStyle.viewerContainer>
-                      <Viewer />
-                    </ViewerStyle.viewerContainer>
-                  </Auth>
-                </LoadingProvider>
+                <Auth option={true}>
+                  <ViewerStyle.viewerContainer>
+                    <Viewer />
+                  </ViewerStyle.viewerContainer>
+                </Auth>
               }
             />
             <Route
               path="/controller"
               element={
-                <LoadingProvider value={useLoading}>
-                  <Auth option={true}>
-                    <ControllerStyle.ControllerContainer>
-                      <Controller />
-                    </ControllerStyle.ControllerContainer>
-                  </Auth>
-                </LoadingProvider>
+                <Auth option={true}>
+                  <ControllerStyle.ControllerContainer>
+                    <Controller />
+                  </ControllerStyle.ControllerContainer>
+                </Auth>
               }
             />
             <Route
               path="/login"
               element={
-                <LoadingProvider value={useLoading}>
-                  <Auth option={false}>
-                    <LoginStyle.LoginContainer>
-                      <Login />
-                    </LoginStyle.LoginContainer>
-                  </Auth>
-                </LoadingProvider>
+                <Auth option={false}>
+                  <LoginStyle.LoginContainer>
+                    <Login />
+                  </LoginStyle.LoginContainer>
+                </Auth>
               }
             />
             <Route
               path="/register"
               element={
-                <LoadingProvider value={useLoading}>
-                  <Auth option={false}>
-                    <RegisterStyle.RegisterContainer>
-                      <Register />
-                    </RegisterStyle.RegisterContainer>
-                  </Auth>
-                </LoadingProvider>
+                <Auth option={false}>
+                  <RegisterStyle.RegisterContainer>
+                    <Register />
+                  </RegisterStyle.RegisterContainer>
+                </Auth>
               }
             />
 
@@ -209,6 +209,28 @@ function App() {
                   {/* <NotfoundStyle.NotfoundContainer> */}
                   <GoogleRedirectionPage />
                   {/* </NotfoundStyle.NotfoundContainer> */}
+                </Auth>
+              }
+            />
+
+            <Route
+              path="/detail/:id"
+              element={
+                <Auth option={null}>
+                  <DetailCardStyle.DetailContainer>
+                    <Detail />
+                  </DetailCardStyle.DetailContainer>
+                </Auth>
+              }
+            />
+
+            <Route
+              path="detailResult"
+              element={
+                <Auth option={null}>
+                  <DetailCardStyle.DetailResultContainer>
+                    <DetailResult />
+                  </DetailCardStyle.DetailResultContainer>
                 </Auth>
               }
             />

@@ -111,10 +111,84 @@ export const cardStyle = css`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
+export const detailCardStyle = css`
+  /* 카드 뒤집기 애니메이션 */
+  .card {
+    width: 100%;
+    height: 300px;
+    perspective: 1000px;
+  }
+
+  .card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+  }
+
+  .card.flipped .card-inner {
+    transform: rotateY(180deg);
+  }
+
+  .card-front,
+  .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+  }
+
+  .card-back {
+    transform: rotateY(180deg);
+  }
+
+  button:disabled {
+    background-color: grey;
+    cursor: not-allowed;
+  }
+`;
+
+export const ResultStyle = css`
+  .result-page {
+    text-align: center;
+  }
+
+  .message-title {
+    font-size: 20px;
+    margin: 20px 0;
+  }
+
+  .result-section,
+  .next-section {
+    margin: 20px 0;
+  }
+
+  button {
+    background-color: #50a1ff;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #3577c4;
+  }
+
+  button:disabled {
+    background-color: grey;
+    cursor: not-allowed;
+  }
+`;
+
 export default {
   CardContainer,
   CardQuestion,
   CardAnswer,
   flexCenter,
   cardStyle,
+  detailCardStyle,
+  ResultStyle,
 };

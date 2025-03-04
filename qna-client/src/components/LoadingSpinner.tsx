@@ -85,6 +85,7 @@ export const LoadingProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
+  console.log("[spinner] isLoading ---> ", isLoading);
   return (
     <LoadingContext.Provider value={{ isLoading, setIsLoading }}>
       {isLoading ? <LoadingSpinner /> : children}

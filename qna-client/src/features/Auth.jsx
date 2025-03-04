@@ -21,8 +21,9 @@ const Auth = ({ children, option, adminRoute = null }) => {
   // 로그인 한 회원은 진입 못 하는 페이지: Login, Register
   // 관리자만 진입 가능 페이지 : Admin
 
-  useEffect(() => {
-    axios.get("/api/users/auth").then((response) => {
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("/api/users/auth");
       console.log("[auth] response ===> ", response);
       console.log("[auth] response ===> ", response.data.isAuth);
 
@@ -43,8 +44,16 @@ const Auth = ({ children, option, adminRoute = null }) => {
           navigate("/login");
         }
       }
-    });
-  }, [adminRoute, navigate, option, onAuth]);
+    } catch (err) {
+      console.log("err ===> ", err);
+    }
+  };
+
+  useEffect(() => {
+    console.log("[auth]check");
+    fetchData();
+  }, []);
+  // }, [adminRoute, navigate, option, onAuth]);
 
   /**
    * setIsLogin, onAuth는 useContext로 가져온 상태 업데이트 함수이므로 변경 안 됨

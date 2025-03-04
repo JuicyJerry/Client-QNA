@@ -17,3 +17,4 @@ export { default as NotfoundStyle } from "./notfound";
 export { default as MinxinsStyle } from "./minxins";
 export { default as HeaderStyle } from "./header";
 export { default as NavigationStyle } from "./navigation";
+export { default as DetailCardStyle } from "./detailCard";

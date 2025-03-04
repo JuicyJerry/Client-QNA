@@ -3,6 +3,7 @@ export interface Qna {
   content: {
     question: string;
     answer: string;
+    tags: string;
   };
   isDone: boolean;
 }
