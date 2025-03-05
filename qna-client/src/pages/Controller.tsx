@@ -1,5 +1,5 @@
-import React, { useState, useRef, useContext } from "react";
-import { QnaStateContext, QnaDispatchContext } from "../App.tsx";
+import React, { useState, useRef, useContext, memo } from "react";
+import { QnaStateContext, QnaCrudContext } from "../App.tsx";
 import { ControllerStyle } from "../styles/index.js";
 // import { useQnaActions } from "../_actions/index";
 
@@ -7,15 +7,15 @@ import { ControllerStyle } from "../styles/index.js";
 //   onChangeInput: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 // }
 
-const Controller = () => {
+const Controller = memo(() => {
   const [question, setQuestion] = useState<string>("");
   const [answer, setAnswer] = useState<string>("");
 
   const qnas = useContext(QnaStateContext);
-  if (!qnas) throw new Error("[useQnaActions]QnaDispatchContext is not found");
+  if (!qnas) throw new Error("[useQnaActions]QnaStateContext is not found");
   const idRef = useRef(qnas.questions.length);
 
-  const { onCreate } = useContext(QnaDispatchContext)!;
+  const { onCreate } = useContext(QnaCrudContext)!;
   // const { onCreate } = useQnaActions();
   if (!qnas) throw new Error("[Controller]qnas is not found");
   if (!onCreate) throw new Error("[Controller]onCreate is not found");
@@ -107,6 +107,6 @@ const Controller = () => {
       </div>
     </div>
   );
-};
+});
 
 export default Controller;

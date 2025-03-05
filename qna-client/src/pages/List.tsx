@@ -1,11 +1,11 @@
 import { QnaStateContext } from "../App.js";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState, memo } from "react";
 import { ListStyle } from "../styles/index";
 import QnaList from "../components/QnaList";
 import { Qna } from "../types";
 import { useLoading } from "../components/LoadingSpinner.js";
 
-const List = () => {
+const List = memo(() => {
   const { setIsLoading } = useLoading();
   const qnas = useContext(QnaStateContext);
   const [visibleQuestions, setVisibleQuestions] = useState<Qna[]>([]);
@@ -95,6 +95,6 @@ const List = () => {
       </section>
     </div>
   );
-};
+});
 
 export default List;

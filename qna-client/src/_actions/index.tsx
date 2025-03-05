@@ -1,6 +1,6 @@
 import React, { useCallback, useContext } from "react";
 import { Qna } from "../types";
-import { QnaDispatchContext } from "../App";
+import { QnaUserInfoDispatchContext } from "../App";
 
 export const CREATE = "CREATE";
 export const UPDATE = "UPDATE";
@@ -22,10 +22,10 @@ interface UserInfo {
 
 export const useQnaActions = () => {
   console.log(
-    "[useQnaActions]useContext(QnaDispatchContext) --> ",
-    useContext(QnaDispatchContext)
+    "[useQnaActions]useContext(QnaUserInfoDispatchContext) --> ",
+    useContext(QnaUserInfoDispatchContext)
   );
-  const { dispatch } = useContext(QnaDispatchContext)!;
+  const { dispatch } = useContext(QnaUserInfoDispatchContext)!;
   console.log("[useQnaActions]dispatch --> ", dispatch);
   if (!dispatch) throw new Error("[useQnaActions]context is not found");
 

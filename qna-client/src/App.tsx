@@ -28,13 +28,18 @@ import {
 } from "./styles/index";
 import "./App.css";
 import axios from "axios";
-import { Qna, QnasContextValue, QnaDispatchContextType } from "./types";
+import {
+  Qna,
+  QnasContextValue,
+  QnaUserInfoContextType,
+  QnaCrudContextType,
+} from "./types";
 import { useLoading } from "./components/LoadingSpinner";
 
 export const QnaStateContext = createContext<QnasContextValue | null>(null);
-export const QnaDispatchContext = createContext<QnaDispatchContextType | null>(
-  null
-);
+export const QnaCrudContext = createContext<QnaCrudContextType | null>(null);
+export const QnaUserInfoDispatchContext =
+  createContext<QnaUserInfoContextType | null>(null);
 
 function App() {
   const { isLoading, setIsLoading } = useLoading();
@@ -87,7 +92,7 @@ function App() {
   //   });
   // }, [dispatch]);
 
-  const memoizedDispatch = useMemo(() => {
+  const memoizedCrudDispatch = useMemo(() => {
     return {
       onCreate: (content: Qna) => {
         dispatch({ type: "CREATE", data: content });
@@ -98,6 +103,10 @@ function App() {
       onDelete: (targetId: string) => {
         dispatch({ type: "DELETE", targetId });
       },
+    };
+  }, []);
+  const memoizedUserInfoDispatch = useMemo(() => {
+    return {
       onLogin: (userInfo: { isLogin: boolean; message: string }) => {
         console.log("[App] userInfo.isLogin ===> ", userInfo.isLogin);
 
@@ -137,117 +146,126 @@ function App() {
 
   return (
     <div className="App">
-      <QnaStateContext.Provider value={qnas}>
-        <QnaDispatchContext.Provider value={memoizedDispatch}>
-          <Navigation />
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <Auth option={null}>
-                  <HomeStyle.HomeContainer>
-                    <Home />
-                  </HomeStyle.HomeContainer>
-                </Auth>
-              }
-            />
-            <Route
-              path="/list"
-              element={
-                <Auth option={true}>
-                  <ListStyle.ListContainer>
-                    <List />
-                  </ListStyle.ListContainer>
-                </Auth>
-              }
-            />
-            <Route
-              path="/viewer"
-              element={
-                <Auth option={true}>
-                  <ViewerStyle.viewerContainer>
-                    <Viewer />
-                  </ViewerStyle.viewerContainer>
-                </Auth>
-              }
-            />
-            <Route
-              path="/controller"
-              element={
-                <Auth option={true}>
-                  <ControllerStyle.ControllerContainer>
-                    <Controller />
-                  </ControllerStyle.ControllerContainer>
-                </Auth>
-              }
-            />
-            <Route
-              path="/login"
-              element={
-                <Auth option={false}>
-                  <LoginStyle.LoginContainer>
-                    <Login />
-                  </LoginStyle.LoginContainer>
-                </Auth>
-              }
-            />
-            <Route
-              path="/register"
-              element={
-                <Auth option={false}>
-                  <RegisterStyle.RegisterContainer>
-                    <Register />
-                  </RegisterStyle.RegisterContainer>
-                </Auth>
-              }
-            />
+      <QnaStateContext.Provider value={useMemo(() => qnas, [qnas])}>
+        <QnaUserInfoDispatchContext.Provider
+          value={useMemo(
+            () => memoizedUserInfoDispatch,
+            [memoizedUserInfoDispatch]
+          )}
+        >
+          <QnaCrudContext.Provider
+            value={useMemo(() => memoizedCrudDispatch, [memoizedCrudDispatch])}
+          >
+            <Navigation />
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <Auth option={null}>
+                    <HomeStyle.HomeContainer>
+                      <Home />
+                    </HomeStyle.HomeContainer>
+                  </Auth>
+                }
+              />
+              <Route
+                path="/list"
+                element={
+                  <Auth option={true}>
+                    <ListStyle.ListContainer>
+                      <List />
+                    </ListStyle.ListContainer>
+                  </Auth>
+                }
+              />
+              <Route
+                path="/viewer"
+                element={
+                  <Auth option={true}>
+                    <ViewerStyle.viewerContainer>
+                      <Viewer />
+                    </ViewerStyle.viewerContainer>
+                  </Auth>
+                }
+              />
+              <Route
+                path="/controller"
+                element={
+                  <Auth option={true}>
+                    <ControllerStyle.ControllerContainer>
+                      <Controller />
+                    </ControllerStyle.ControllerContainer>
+                  </Auth>
+                }
+              />
+              <Route
+                path="/login"
+                element={
+                  <Auth option={false}>
+                    <LoginStyle.LoginContainer>
+                      <Login />
+                    </LoginStyle.LoginContainer>
+                  </Auth>
+                }
+              />
+              <Route
+                path="/register"
+                element={
+                  <Auth option={false}>
+                    <RegisterStyle.RegisterContainer>
+                      <Register />
+                    </RegisterStyle.RegisterContainer>
+                  </Auth>
+                }
+              />
 
-            <Route
-              path="oauthgoogle"
-              element={
-                <Auth option={null}>
-                  {/* <NotfoundStyle.NotfoundContainer> */}
-                  <GoogleRedirectionPage />
-                  {/* </NotfoundStyle.NotfoundContainer> */}
-                </Auth>
-              }
-            />
+              <Route
+                path="oauthgoogle"
+                element={
+                  <Auth option={null}>
+                    {/* <NotfoundStyle.NotfoundContainer> */}
+                    <GoogleRedirectionPage />
+                    {/* </NotfoundStyle.NotfoundContainer> */}
+                  </Auth>
+                }
+              />
 
-            <Route
-              path="/detail/:id"
-              element={
-                <Auth option={null}>
-                  <DetailCardStyle.DetailContainer>
-                    <Detail />
-                  </DetailCardStyle.DetailContainer>
-                </Auth>
-              }
-            />
+              <Route
+                path="/detail/:id"
+                element={
+                  <Auth option={null}>
+                    <DetailCardStyle.DetailContainer>
+                      <Detail />
+                    </DetailCardStyle.DetailContainer>
+                  </Auth>
+                }
+              />
 
-            <Route
-              path="detailResult"
-              element={
-                <Auth option={null}>
-                  <DetailCardStyle.DetailResultContainer>
-                    <DetailResult />
-                  </DetailCardStyle.DetailResultContainer>
-                </Auth>
-              }
-            />
+              <Route
+                path="detailResult"
+                element={
+                  <Auth option={null}>
+                    <DetailCardStyle.DetailResultContainer>
+                      <DetailResult />
+                    </DetailCardStyle.DetailResultContainer>
+                  </Auth>
+                }
+              />
 
-            {/* <Route path="/oauthgoogle" element={<GoogleRedirectionPage />} /> */}
-            <Route
-              path="*"
-              element={
-                <Auth option={null}>
-                  <NotfoundStyle.NotfoundContainer>
-                    <Notfound />
-                  </NotfoundStyle.NotfoundContainer>
-                </Auth>
-              }
-            />
-          </Routes>
-        </QnaDispatchContext.Provider>
+              {/* <Route path="/oauthgoogle" element={<GoogleRedirectionPage />} /> */}
+              <Route
+                path="*"
+                element={
+                  <Auth option={null}>
+                    <NotfoundStyle.NotfoundContainer>
+                      <Notfound />
+                    </NotfoundStyle.NotfoundContainer>
+                  </Auth>
+                }
+              />
+            </Routes>
+          </QnaCrudContext.Provider>
+        </QnaUserInfoDispatchContext.Provider>
       </QnaStateContext.Provider>
     </div>
   );

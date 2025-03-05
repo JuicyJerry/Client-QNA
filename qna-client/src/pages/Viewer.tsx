@@ -1,10 +1,10 @@
 import { useParams } from "react-router-dom";
 import Card from "../components/Card.jsx";
-import { useState, useContext } from "react";
+import { useState, useContext, memo } from "react";
 import { QnaStateContext } from "../App.js";
 import { MinxinsStyle } from "../styles/index.js";
 
-const Viewer = () => {
+const Viewer = memo(() => {
   const qnas = useContext(QnaStateContext);
   if (!qnas) throw new Error("[Viewer]qnas is not found");
   console.log("Viewer[state]: ", qnas);
@@ -40,6 +40,6 @@ const Viewer = () => {
       </MinxinsStyle.CardContainer>
     </div>
   );
-};
+});
 
 export default Viewer;

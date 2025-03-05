@@ -1,11 +1,25 @@
-import { useEffect } from "react";
+import { useEffect, useContext, memo } from "react";
+import { QnaUserInfoDispatchContext } from "../App";
 import axios from "axios";
 import { HomeStyle } from "../styles/index";
 import { ListStyle } from "../styles/index";
 import Header from "../components/Header";
 import List from "./List";
+import { useLocation } from "react-router-dom";
 
-const Home = () => {
+const Home = memo(() => {
+  const location = useLocation();
+  const { onLogin } = useContext(QnaUserInfoDispatchContext)!;
+  console.log("[home]location ===> ", location);
+
+  if (location.state?.userInfo) {
+    console.log("[home] location.state ===> ", location.state);
+    onLogin({
+      isLogin: true,
+      message: "로그인 성공",
+    });
+  }
+
   useEffect(() => {
     axios
       .get("/api/hello")
@@ -29,6 +43,6 @@ const Home = () => {
       </ListStyle.ListContainer>
     </div>
   );
-};
+});
 
 export default Home;

@@ -1,11 +1,11 @@
 import { QnaStateContext } from "../App.js";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, memo } from "react";
 import { useNavigate } from "react-router-dom";
 import DetailCard from "../components/DetailCard";
 import { useParams } from "react-router-dom";
 import { useKeyPress } from "../hooks/useKeyPress"; // 방향키 이벤트 훅
 
-const Detail = () => {
+const Detail = memo(() => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const navigate = useNavigate();
@@ -61,6 +61,6 @@ const Detail = () => {
       </div>
     </div>
   );
-};
+});
 
 export default Detail;

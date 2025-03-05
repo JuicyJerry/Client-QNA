@@ -1,6 +1,6 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, memo } from "react";
 import Axios from "axios";
-import { QnaDispatchContext } from "../App";
+import { QnaUserInfoDispatchContext } from "../App";
 import { useNavigate } from "react-router-dom";
 import { RegisterStyle } from "../styles/index.js";
 import check from "../imgs/check.svg";
@@ -8,7 +8,7 @@ import cancel from "../imgs/cancel.svg";
 import confirm from "../imgs/confirm.svg";
 import PhoneEmailButton from "../components/PhoneEmailButton";
 
-const Register = () => {
+const Register = memo(() => {
   const [email, setEmail] = useState("");
   const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
@@ -47,9 +47,9 @@ const Register = () => {
     setPwCondition3(condition3 ? "success" : "cancel");
   }, [password]);
 
-  const { onRegister } = useContext(QnaDispatchContext)!;
+  const { onRegister } = useContext(QnaUserInfoDispatchContext)!;
   if (!onRegister)
-    throw new Error("[useQnaActions]QnaDispatchContext is not found");
+    throw new Error("[useQnaActions]QnaUserInfoDispatchContext is not found");
   const navigate = useNavigate();
 
   const onEmailHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -209,6 +209,6 @@ const Register = () => {
       </RegisterStyle.RegisterForm>
     </div>
   );
-};
+});
 
 export default Register;

@@ -1,16 +1,16 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, memo } from "react";
 import Axios from "axios";
-import { QnaDispatchContext } from "../App";
+import { QnaUserInfoDispatchContext } from "../App";
 import { LoginStyle } from "../styles/index.js";
 import { Link, useNavigate } from "react-router-dom";
 import GoogleLoginButton from "../features/GoogleLoginButton";
 import KakaoLoginButton from "../features/KakaoLoginButton";
 import axios from "axios";
 
-const Login = () => {
+const Login = memo(() => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { onLogin } = useContext(QnaDispatchContext)!;
+  const { onLogin } = useContext(QnaUserInfoDispatchContext)!;
   const navigate = useNavigate();
 
   const onErrorMessageHandler = (isActive: boolean) => {
@@ -133,6 +133,6 @@ const Login = () => {
       </LoginStyle.LoginForm>
     </div>
   );
-};
+});
 
 export default Login;

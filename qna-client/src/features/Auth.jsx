@@ -1,10 +1,10 @@
-import { useState, useEffect, useContext } from "react";
-import { QnaDispatchContext } from "../App";
+import { useState, useEffect, useContext, memo } from "react";
+import { QnaUserInfoDispatchContext } from "../App";
 import { useNavigate } from "react-router-dom";
 // import { useQnaActions } from "../_actions/index";
 import axios from "axios";
 
-const Auth = ({ children, option, adminRoute = null }) => {
+const Auth = memo(({ children, option, adminRoute = null }) => {
   // option => null, 아무나 출입 가능 페이지
   // option => true, 로그인한 유저만 출입 가능 페이지
   // option => false, 로그인한 유저는 출입 불가능 페이지
@@ -12,7 +12,7 @@ const Auth = ({ children, option, adminRoute = null }) => {
 
   // const { onCreate, onUpdate, onDelete, onLogin, onRegister, onAuth } =
   //   useQnaActions();
-  const { onAuth } = useContext(QnaDispatchContext);
+  const { onAuth } = useContext(QnaUserInfoDispatchContext);
   const navigate = useNavigate();
   // console.log("[auth] onAuth ===> ", onAuth);
 
@@ -61,6 +61,6 @@ const Auth = ({ children, option, adminRoute = null }) => {
    */
 
   return <>{children}</>;
-};
+});
 
 export default Auth;
