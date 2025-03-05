@@ -1,8 +1,7 @@
-import { useEffect, useState, useReducer, useMemo, createContext } from "react";
+import { useEffect, useState, useReducer } from "react";
 import reducer from "./_reducers/index";
 import Auth from "./features/Auth";
 import { Routes, Route } from "react-router-dom";
-// import { useQnaActions } from "./_actions/index";
 import {
   Controller,
   Home,
@@ -28,18 +27,11 @@ import {
 } from "./styles/index";
 import "./App.css";
 import axios from "axios";
-import {
-  Qna,
-  QnasContextValue,
-  QnaUserInfoContextType,
-  QnaCrudContextType,
-} from "./types";
+import { Qna } from "./types";
 import { useLoading } from "./components/LoadingSpinner";
-
-export const QnaStateContext = createContext<QnasContextValue | null>(null);
-export const QnaCrudContext = createContext<QnaCrudContextType | null>(null);
-export const QnaUserInfoDispatchContext =
-  createContext<QnaUserInfoContextType | null>(null);
+import { QnaStateProvider } from "./_context/QnaStateProvider";
+import { QnaDispatchProvider } from "./_context/QnaDispatchProvider";
+import { QnaCrudContextProvider } from "./_context/QnaCrudContextProvider";
 
 function App() {
   const { isLoading, setIsLoading } = useLoading();
@@ -50,21 +42,14 @@ function App() {
   };
   const [qnas, dispatch] = useReducer(reducer, initialState);
 
-  console.log("Here is App Cmp 1-1", isLoading);
   useEffect(() => {
-    console.log("[App]check: ");
     setIsLoading(true);
-    // setTimeout(() => {
-    //   console.log("App[setTimeout/check]: start");
-    //   setIsLoading(true);
-    //   console.log("App[setTimeout/check]: end");
-    // }, 3000);
 
     axios
       .get("/data/mockData.json")
       .then((response) => {
         if (response.data) {
-          console.log("Here is App Cmp 3 ---> ", response.data);
+          // console.log("Here is App Cmp 3 ---> ", response.data);
           setMockdata(response.data);
           dispatch({ type: "SET_QUESTIONS", data: response.data });
           setIsLoading(false);
@@ -79,10 +64,6 @@ function App() {
         setIsLoading(false);
       });
   }, []);
-  // }, [mockData]); // 무한 루프
-  /**
-   * setMockdata 상태 업데이트 -> mockData 변경 -> useEffect 트리거 (무한 루프)
-   */
 
   // useEffect(() => {
   //   axios.get("/api/users/auth", { withCredentials: true }).then((response) => {
@@ -92,70 +73,11 @@ function App() {
   //   });
   // }, [dispatch]);
 
-  const memoizedCrudDispatch = useMemo(() => {
-    return {
-      onCreate: (content: Qna) => {
-        dispatch({ type: "CREATE", data: content });
-      },
-      onUpdate: (targetId: string) => {
-        dispatch({ type: "UPDATE", targetId });
-      },
-      onDelete: (targetId: string) => {
-        dispatch({ type: "DELETE", targetId });
-      },
-    };
-  }, []);
-  const memoizedUserInfoDispatch = useMemo(() => {
-    return {
-      onLogin: (userInfo: { isLogin: boolean; message: string }) => {
-        console.log("[App] userInfo.isLogin ===> ", userInfo.isLogin);
-
-        dispatch({
-          type: "LOGIN",
-          isLogin: userInfo.isLogin,
-          message: userInfo.message,
-        });
-      },
-      onLogout: () => {
-        console.log("[App] userInfo.isLogout ===> ");
-
-        dispatch({
-          type: "LOGIN",
-          isLogin: false,
-          message: "로그아웃 작동",
-        });
-      },
-      onRegister: (userInfo: { isLogin: boolean; message: string }) => {
-        dispatch({
-          type: "REGISTER",
-          isLogin: userInfo.isLogin,
-          message: userInfo.message,
-        });
-      },
-      onAuth: (userInfo: { isAuth: boolean; isLogin: boolean }) => {
-        dispatch({
-          type: "AUTH",
-          isAuth: userInfo.isAuth,
-          isLogin: userInfo.isLogin,
-        });
-      },
-      dispatch,
-    };
-  }, []);
-  // }, [dispatch]);
-
   return (
     <div className="App">
-      <QnaStateContext.Provider value={useMemo(() => qnas, [qnas])}>
-        <QnaUserInfoDispatchContext.Provider
-          value={useMemo(
-            () => memoizedUserInfoDispatch,
-            [memoizedUserInfoDispatch]
-          )}
-        >
-          <QnaCrudContext.Provider
-            value={useMemo(() => memoizedCrudDispatch, [memoizedCrudDispatch])}
-          >
+      <QnaStateProvider qnas={qnas}>
+        <QnaDispatchProvider dispatch={dispatch}>
+          <QnaCrudContextProvider>
             <Navigation />
             <Routes>
               <Route
@@ -264,9 +186,9 @@ function App() {
                 }
               />
             </Routes>
-          </QnaCrudContext.Provider>
-        </QnaUserInfoDispatchContext.Provider>
-      </QnaStateContext.Provider>
+          </QnaCrudContextProvider>
+        </QnaDispatchProvider>
+      </QnaStateProvider>
     </div>
   );
 }

@@ -1,4 +1,5 @@
-import { QnaStateContext } from "../App.js";
+// import { QnaStateContext } from "../App.js";
+import { QnaStateContext } from "../_context/QnaStateProvider.tsx";
 import { useContext, useEffect, useRef, useState, memo } from "react";
 import { ListStyle } from "../styles/index";
 import QnaList from "../components/QnaList";
@@ -24,15 +25,14 @@ const List = memo(() => {
   // 스크롤 이벤트 감지하여 추가 데이터 로딩
   useEffect(() => {
     const listElement = listRef.current;
-    console.log("listElement ---> ", listElement);
+    // console.log("listElement ---> ", listElement);
     if (!listElement) return;
 
     const handleScroll = () => {
       const { scrollTop, scrollHeight, clientHeight } = listElement;
-      console.log("scrollTop + clientHeight ---> ", scrollTop + clientHeight);
-      console.log("scrollHeight - 5 ---> ", scrollHeight - 5, "\n\n");
+
       if (scrollTop + clientHeight >= scrollHeight - 5) {
-        console.log("[handleScroll] loadMoreQuestions 실행 ===> ");
+        // console.log("[handleScroll] loadMoreQuestions 실행 ===> ");
         loadMoreQuestions();
       }
     };
@@ -43,14 +43,14 @@ const List = memo(() => {
 
   // 추가 데이터 로딩 함수
   const loadMoreQuestions = () => {
-    console.log(
-      "[loadMoreQuestions] qnas.questions.length ===> ",
-      qnas.questions.length
-    );
-    console.log(
-      "[loadMoreQuestions] visibleQuestions.length ===> ",
-      visibleQuestions.length
-    );
+    // console.log(
+    //   "[loadMoreQuestions] qnas.questions.length ===> ",
+    //   qnas.questions.length
+    // );
+    // console.log(
+    //   "[loadMoreQuestions] visibleQuestions.length ===> ",
+    //   visibleQuestions.length
+    // );
     if (qnas.questions.length > visibleQuestions.length) {
       setIsLoading(true);
       setTimeout(() => {

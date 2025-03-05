@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext, memo } from "react";
-import { QnaUserInfoDispatchContext } from "../App";
+// import { QnaDispatchContext } from "../App";
+import { QnaDispatchContext } from "../_context/QnaDispatchProvider";
 import { useNavigate } from "react-router-dom";
 // import { useQnaActions } from "../_actions/index";
 import axios from "axios";
@@ -12,7 +13,7 @@ const Auth = memo(({ children, option, adminRoute = null }) => {
 
   // const { onCreate, onUpdate, onDelete, onLogin, onRegister, onAuth } =
   //   useQnaActions();
-  const { onAuth } = useContext(QnaUserInfoDispatchContext);
+  const { onAuth } = useContext(QnaDispatchContext);
   const navigate = useNavigate();
   // console.log("[auth] onAuth ===> ", onAuth);
 
@@ -50,7 +51,7 @@ const Auth = memo(({ children, option, adminRoute = null }) => {
   };
 
   useEffect(() => {
-    console.log("[auth]check");
+    // console.log("[auth]check");
     fetchData();
   }, []);
   // }, [adminRoute, navigate, option, onAuth]);

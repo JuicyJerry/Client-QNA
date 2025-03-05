@@ -85,7 +85,7 @@ export const LoadingProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-  console.log("[spinner] isLoading ---> ", isLoading);
+  // console.log("[spinner] isLoading ---> ", isLoading);
   return (
     <LoadingContext.Provider value={{ isLoading, setIsLoading }}>
       {isLoading ? <LoadingSpinner /> : children}
@@ -96,7 +96,7 @@ export const LoadingProvider: React.FC<{ children: React.ReactNode }> = ({
 // 로딩 상태 쉽게 가져올 수 있는 HOOK
 export const useLoading = () => {
   const context = useContext(LoadingContext);
-  console.log("[LoadingSpinner]context ===> ", context);
+  // console.log("[LoadingSpinner]context ===> ", context);
   if (!context) {
     throw new Error("useLoading must be used within a LoadingProvider");
   }

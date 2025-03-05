@@ -1,4 +1,5 @@
-import { QnaStateContext } from "../App.js";
+// import { QnaStateContext } from "../App.js";
+import { QnaStateContext } from "../_context/QnaStateProvider.tsx";
 import React, { useState, useContext, memo } from "react";
 import { useNavigate } from "react-router-dom";
 import DetailCard from "../components/DetailCard";

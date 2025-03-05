@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect, memo } from "react";
 import Axios from "axios";
-import { QnaUserInfoDispatchContext } from "../App";
+// import { QnaDispatchContext } from "../App";
+import { QnaDispatchContext } from "../_context/QnaDispatchProvider.tsx";
 import { useNavigate } from "react-router-dom";
 import { RegisterStyle } from "../styles/index.js";
 import check from "../imgs/check.svg";
@@ -47,9 +48,9 @@ const Register = memo(() => {
     setPwCondition3(condition3 ? "success" : "cancel");
   }, [password]);
 
-  const { onRegister } = useContext(QnaUserInfoDispatchContext)!;
+  const { onRegister } = useContext(QnaDispatchContext)!;
   if (!onRegister)
-    throw new Error("[useQnaActions]QnaUserInfoDispatchContext is not found");
+    throw new Error("[useQnaActions]QnaDispatchContext is not found");
   const navigate = useNavigate();
 
   const onEmailHandler = (event: React.ChangeEvent<HTMLInputElement>) => {

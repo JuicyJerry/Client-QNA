@@ -1,5 +1,8 @@
 import React, { useState, useRef, useContext, memo } from "react";
-import { QnaStateContext, QnaCrudContext } from "../App.tsx";
+import { QnaStateContext } from "../_context/QnaStateProvider.tsx";
+// import { QnaStateContext, QnaCrudContext } from "../App.tsx";
+import QnaCrudContext from "../_context/QnaCrudContextProvider.tsx";
+
 import { ControllerStyle } from "../styles/index.js";
 // import { useQnaActions } from "../_actions/index";
 

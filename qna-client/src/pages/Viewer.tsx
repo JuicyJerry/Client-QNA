@@ -1,7 +1,9 @@
 import { useParams } from "react-router-dom";
 import Card from "../components/Card.jsx";
 import { useState, useContext, memo } from "react";
-import { QnaStateContext } from "../App.js";
+// import { QnaStateContext } from "../App.js";
+import { QnaStateContext } from "../_context/QnaStateProvider.tsx";
+
 import { MinxinsStyle } from "../styles/index.js";
 
 const Viewer = memo(() => {

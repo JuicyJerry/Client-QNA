@@ -1,6 +1,8 @@
 import React, { useState, useContext, memo } from "react";
 import Axios from "axios";
-import { QnaUserInfoDispatchContext } from "../App";
+// import { QnaDispatchContext } from "../App";
+import { QnaDispatchContext } from "../_context/QnaDispatchProvider.tsx";
+
 import { LoginStyle } from "../styles/index.js";
 import { Link, useNavigate } from "react-router-dom";
 import GoogleLoginButton from "../features/GoogleLoginButton";
@@ -10,7 +12,7 @@ import axios from "axios";
 const Login = memo(() => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { onLogin } = useContext(QnaUserInfoDispatchContext)!;
+  const { onLogin } = useContext(QnaDispatchContext)!;
   const navigate = useNavigate();
 
   const onErrorMessageHandler = (isActive: boolean) => {

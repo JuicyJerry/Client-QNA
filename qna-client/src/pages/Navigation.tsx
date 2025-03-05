@@ -1,16 +1,19 @@
 import { useContext, memo } from "react";
-import { QnaStateContext, QnaUserInfoDispatchContext } from "../App";
+// import { QnaStateContext, QnaDispatchContext } from "../App";
+import { QnaDispatchContext } from "../_context/QnaDispatchProvider.tsx";
+import { QnaStateContext } from "../_context/QnaStateProvider.tsx";
+
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { NavigationStyle } from "../styles/index";
 import logo from "../imgs/logo.svg";
 
 const Navigation = memo(() => {
-  // console.log("[Navigation]isLogin ---> ", useContext(QnaUserInfoDispatchContext));
+  // console.log("[Navigation]isLogin ---> ", useContext(QnaDispatchContext));
   const { isLogin } = useContext(QnaStateContext)!;
-  const { onLogout } = useContext(QnaUserInfoDispatchContext)!;
+  const { onLogout } = useContext(QnaDispatchContext)!;
   // console.log("[Navigation]isLogin 2---> ", onLogout);
-  console.log("[Navigation]isLogin 3---> ", isLogin);
+  // console.log("[Navigation]isLogin 3---> ", isLogin);
 
   const navigate = useNavigate();
 

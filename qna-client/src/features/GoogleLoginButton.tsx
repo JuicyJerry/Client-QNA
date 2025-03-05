@@ -1,13 +1,14 @@
 import { useEffect, useContext } from "react";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { QnaUserInfoDispatchContext } from "../App";
+// import { QnaDispatchContext } from "../App";
+import { QnaDispatchContext } from "../_context/QnaDispatchProvider.tsx";
 
 const GoogleLoginButton = () => {
   console.log("Google Client ID:", import.meta.env.VITE_GOOGLE_CLIENT_ID);
   console.log("Google Redirect URI:", import.meta.env.VITE_GOOGLE_REDIRECT_URI);
   const navigate = useNavigate();
-  const { onLogin } = useContext(QnaUserInfoDispatchContext)!;
+  const { onLogin } = useContext(QnaDispatchContext)!;
 
   const googleLoginClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
