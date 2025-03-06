@@ -1,16 +1,24 @@
 // KakaoLogin.jsx
 import React, { useEffect } from "react";
-import kakao from "../imgs/kakao_login_medium_narrow.png";
+import kakao from "../assets/imgs/kakao_login_medium_narrow.png";
 import { useNavigate } from "react-router-dom";
+import { ENV } from "../config/env.ts";
+import styled from "@emotion/styled";
+
+const StyledKakaoButton = styled.button`
+  width: 100%;
+  height: 100%;
+`;
+const StyledKakaoButtonImg = styled.img`
+  width: 100%;
+  height: 100%;
+`;
 
 const KakaoLoginButton = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(
-      "[KakaoLoginButton]VITE_KAKAO_JS_KEY ===> ",
-      import.meta.env.VITE_KAKAO_JS_KEY
-    );
+    console.log("[KakaoLoginButton]VITE_KAKAO_JS_KEY ===> ", ENV.KAKAO_JS_KEY);
     console.log("[KakaoLoginButton]window.Kakao ===> ", window.Kakao);
     console.log(
       "[KakaoLoginButton]window.Kakao.isInitialized() ===> ",
@@ -19,7 +27,7 @@ const KakaoLoginButton = () => {
 
     // window.Kakao가 존재하는지 확인 후 초기화
     if (window.Kakao && !window.Kakao.isInitialized()) {
-      window.Kakao.init(import.meta.env.VITE_KAKAO_JS_KEY); // 발급받은 JavaScript 키 입력
+      window.Kakao.init(ENV.KAKAO_JS_KEY); // 발급받은 JavaScript 키 입력
       console.log("Kakao 초기화 완료:", window.Kakao.isInitialized());
     }
   }, []);
@@ -49,14 +57,13 @@ const KakaoLoginButton = () => {
   };
 
   return (
-    <button style={{ height: "38.4px" }} onClick={handleKakaoLogin}>
-      <img
-        style={{ height: "38.4px" }}
+    <StyledKakaoButton onClick={handleKakaoLogin}>
+      <StyledKakaoButtonImg
         className="kakao"
         src={kakao}
         alt="kakao login logo"
       />
-    </button>
+    </StyledKakaoButton>
   );
 };
 

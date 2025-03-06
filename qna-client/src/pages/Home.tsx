@@ -1,12 +1,12 @@
 import { useEffect, useContext, memo } from "react";
 // import { QnaDispatchContext } from "../App";
 import { QnaDispatchContext } from "../_context/QnaDispatchProvider.tsx";
-import axios from "axios";
 import { HomeStyle } from "../styles/index";
 import { ListStyle } from "../styles/index";
 import Header from "../components/Header";
 import List from "./List";
 import { useLocation } from "react-router-dom";
+import api from "../utils/axios.ts";
 
 const Home = memo(() => {
   const location = useLocation();
@@ -22,7 +22,7 @@ const Home = memo(() => {
   }
 
   useEffect(() => {
-    axios
+    api
       .get("/api/hello")
       .then((response) => {
         // console.log("Home 화면입니다.", response);
@@ -35,14 +35,14 @@ const Home = memo(() => {
   }, []);
 
   return (
-    <div style={{ width: "100%", height: "calc(100vh - 56px)" }}>
+    <HomeStyle.HomeContainer>
       <ListStyle.ListContainer>
-        <HomeStyle.HomeContainer className="home">
+        <section className="home">
           <Header />
-          <List />
-        </HomeStyle.HomeContainer>
+          <ListStyle.ListContainer />
+        </section>
       </ListStyle.ListContainer>
-    </div>
+    </HomeStyle.HomeContainer>
   );
 });
 

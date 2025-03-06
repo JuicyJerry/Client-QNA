@@ -1,6 +1,6 @@
 import { useEffect, useState, useReducer, useMemo, createContext } from "react";
 import reducer from "../_reducers/index";
-import { QnasContextValue } from "../types";
+import { QnasContextValue } from "../types/types";
 
 // import { Qna, QnaCrudContextType } from "../types";
 export const QnaStateContext = createContext<QnasContextValue | null>(null);

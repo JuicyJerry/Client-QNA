@@ -1,13 +1,10 @@
 import React, { useState, useContext, memo } from "react";
-import Axios from "axios";
-// import { QnaDispatchContext } from "../App";
 import { QnaDispatchContext } from "../_context/QnaDispatchProvider.tsx";
-
 import { LoginStyle } from "../styles/index.js";
 import { Link, useNavigate } from "react-router-dom";
 import GoogleLoginButton from "../features/GoogleLoginButton";
 import KakaoLoginButton from "../features/KakaoLoginButton";
-import axios from "axios";
+import api from "../utils/axios.ts";
 
 const Login = memo(() => {
   const [email, setEmail] = useState("");
@@ -52,9 +49,10 @@ const Login = memo(() => {
         password: password,
       };
 
-      // Axios.post("/api/users/login", body)
-      Axios.post("/api/users/login", body, { withCredentials: true })
-        // Axios.post("http://localhost:5000/api/users/login", body)
+      // api.post("/api/users/login", body)
+      api
+        .post("/api/users/login", body, { withCredentials: true })
+        // api.post("http://localhost:5000/api/users/login", body)
         .then((response) => {
           if (response.data.loginSuccess) {
             onLogin({

@@ -57,6 +57,7 @@ export const LoginContainer = styled.div`
     gap: 10px;
     align-items: center;
     justify-content: space-between;
+    height: 40px;
   }
 `;
 

@@ -1,5 +1,5 @@
 import { useMemo, createContext } from "react";
-import { QnaUserInfoContextType } from "../types";
+import { QnaUserInfoContextType } from "../types/types";
 
 export const QnaDispatchContext = createContext<QnaUserInfoContextType | null>(
   null

@@ -1,20 +1,12 @@
+import { memo } from "react";
 import { HeaderStyle } from "../styles/index";
-import { Link, useNavigate } from "react-router-dom";
-// import ConstellationCanvas from "./ConstellationCanvas";
+import { Link } from "react-router-dom";
 
-const Header = () => {
+const Header = memo(() => {
   return (
-    <div
-      style={{
-        width: "100%",
-        backgroundColor: "#24292e",
-        display: "flex",
-        justifyContent: "center",
-      }}
-    >
-      <div style={{ width: "100%", maxWidth: "1140px" }}>
-        {/* <ConstellationCanvas color="rgba(255,255,255,0.3)"> */}
-        <HeaderStyle.HeaderContainer>
+    <HeaderStyle.HeaderContainer>
+      <div className="wrapper">
+        <HeaderStyle.HeaderContents>
           <div className="container">
             <h3 className="title">
               The QNA includes a wide number of IT Area questions
@@ -51,11 +43,10 @@ const Header = () => {
           <div>
             <img src="https://placehold.co/300x300" alt="샘플이미지" />
           </div>
-        </HeaderStyle.HeaderContainer>
-        {/* </ConstellationCanvas> */}
+        </HeaderStyle.HeaderContents>
       </div>
-    </div>
+    </HeaderStyle.HeaderContainer>
   );
-};
+});
 
 export default Header;

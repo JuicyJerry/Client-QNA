@@ -1,14 +1,4 @@
-// import {
-//   CREATE,
-//   UPDATE,
-//   DELETE,
-//   LOGIN,
-//   LOGOUT,
-//   AUTH,
-//   REGISTER,
-//   SET_QUESTIONS,
-// } from "../_actions/index";
-import { Qna, ActionTypes } from "../types";
+import { Qna, ActionTypes } from "../types/types";
 
 interface State {
   questions: Qna[];

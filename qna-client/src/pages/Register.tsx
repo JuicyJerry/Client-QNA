@@ -1,13 +1,12 @@
 import { useState, useContext, useEffect, memo } from "react";
-import Axios from "axios";
-// import { QnaDispatchContext } from "../App";
 import { QnaDispatchContext } from "../_context/QnaDispatchProvider.tsx";
 import { useNavigate } from "react-router-dom";
 import { RegisterStyle } from "../styles/index.js";
-import check from "../imgs/check.svg";
-import cancel from "../imgs/cancel.svg";
-import confirm from "../imgs/confirm.svg";
+import check from "../assets/imgs/check.svg";
+import cancel from "../assets/imgs/cancel.svg";
+import confirm from "../assets/imgs/confirm.svg";
 import PhoneEmailButton from "../components/PhoneEmailButton";
+import api from "../utils/axios.ts";
 
 const Register = memo(() => {
   const [email, setEmail] = useState("");
@@ -90,9 +89,10 @@ const Register = memo(() => {
       authentication: isVerified,
     };
 
-    // Axios.post("/api/users/login", body)
-    Axios.post("/api/users/register", body)
-      // Axios.post("http://localhost:5000/api/users/login", body)
+    // api.post("/api/users/login", body)
+    api
+      .post("/api/users/register", body)
+      // api.post("http://localhost:5000/api/users/login", body)
       .then((response) => {
         console.log("[register] response ===> ", response);
         if (response.data.registerSuccess) {
@@ -200,7 +200,7 @@ const Register = memo(() => {
 
           <PhoneEmailButton onVerify={handleVerification} />
           {isVerified && (
-            <p style={{ color: "green" }}>전화번호가 인증되었습니다.</p>
+            <p className="alert-tel">전화번호가 인증되었습니다.</p>
           )}
 
           <button className="btn-outline-success btn-round" type="submit">

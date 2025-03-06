@@ -1,5 +1,5 @@
 import { useMemo, createContext } from "react";
-import { Qna, QnaCrudContextType } from "../types";
+import { Qna, QnaCrudContextType } from "../types/types";
 
 export const QnaCrudContext = createContext<QnaCrudContextType | null>(null);
 

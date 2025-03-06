@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, memo } from "react";
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
 import logo from "../imgs/logo.svg"; // 로고 경로 맞게 수정!
@@ -22,7 +22,7 @@ const Spinner = styled.svg`
   animation: ${spin} 1.5s linear infinite;
 `;
 
-const LoadingSpinner: React.FC = () => {
+const LoadingSpinner: React.FC = memo(() => {
   return (
     <SpinnerWrapper>
       <Spinner viewBox="0 0 300 300">
@@ -69,7 +69,7 @@ const LoadingSpinner: React.FC = () => {
       </Spinner>
     </SpinnerWrapper>
   );
-};
+});
 
 // 전역 상태 관리
 interface LoadingContextValue {

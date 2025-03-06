@@ -2,11 +2,10 @@ import { useContext, memo } from "react";
 // import { QnaStateContext, QnaDispatchContext } from "../App";
 import { QnaDispatchContext } from "../_context/QnaDispatchProvider.tsx";
 import { QnaStateContext } from "../_context/QnaStateProvider.tsx";
-
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { NavigationStyle } from "../styles/index";
-import logo from "../imgs/logo.svg";
+import logo from "../assets/imgs/logo.svg";
+import api from "../utils/axios.ts";
 
 const Navigation = memo(() => {
   // console.log("[Navigation]isLogin ---> ", useContext(QnaDispatchContext));
@@ -26,7 +25,7 @@ const Navigation = memo(() => {
 
   const onClickHandler = () => {
     // const token = localStorage.getItem("user");
-    axios
+    api
       .get(
         "/api/users/logout",
         // {

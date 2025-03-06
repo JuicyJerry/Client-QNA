@@ -2,6 +2,7 @@ import { useEffect, useState, useReducer } from "react";
 import reducer from "./_reducers/index";
 import Auth from "./features/Auth";
 import { Routes, Route } from "react-router-dom";
+
 import {
   Controller,
   Home,
@@ -26,17 +27,24 @@ import {
   DetailCardStyle,
 } from "./styles/index";
 import "./App.css";
-import axios from "axios";
-import { Qna } from "./types";
+
+import { Qna } from "./types/types";
 import { useLoading } from "./components/LoadingSpinner";
 import { QnaStateProvider } from "./_context/QnaStateProvider";
 import { QnaDispatchProvider } from "./_context/QnaDispatchProvider";
 import { QnaCrudContextProvider } from "./_context/QnaCrudContextProvider";
+import axios from "axios";
+// import api from "./utils/axios";
+
+interface InitailStateType {
+  questions: Qna[];
+  isLogin: boolean;
+}
 
 function App() {
   const { isLoading, setIsLoading } = useLoading();
   const [mockData, setMockdata] = useState<Qna[]>([]);
-  const initialState = {
+  const initialState: InitailStateType = {
     questions: mockData,
     isLogin: false,
   };
@@ -64,14 +72,6 @@ function App() {
         setIsLoading(false);
       });
   }, []);
-
-  // useEffect(() => {
-  //   axios.get("/api/users/auth", { withCredentials: true }).then((response) => {
-  //     if (response.data.isAuth) {
-  //       dispatch({ type: "AUTH", isAuth: true, isLogin: true });
-  //     }
-  //   });
-  // }, [dispatch]);
 
   return (
     <div className="App">

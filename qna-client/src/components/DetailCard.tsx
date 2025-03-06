@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, memo } from "react";
 import { DetailCardStyle } from "../styles";
 
-const DetailCard = ({ question }: { question: Qna }) => {
+const DetailCard = memo(({ question }: { question: Qna }) => {
   const [flipped, setFlipped] = useState(false);
 
   const handleCardClick = () => {
@@ -37,6 +37,6 @@ const DetailCard = ({ question }: { question: Qna }) => {
       </div>
     </DetailCardStyle.DetailCardContainer>
   );
-};
+});
 
 export default DetailCard;

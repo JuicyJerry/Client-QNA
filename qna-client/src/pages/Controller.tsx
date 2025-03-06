@@ -1,14 +1,8 @@
 import React, { useState, useRef, useContext, memo } from "react";
 import { QnaStateContext } from "../_context/QnaStateProvider.tsx";
-// import { QnaStateContext, QnaCrudContext } from "../App.tsx";
-import QnaCrudContext from "../_context/QnaCrudContextProvider.tsx";
-
+import { QnaCrudContext } from "../_context/QnaCrudContextProvider.tsx";
 import { ControllerStyle } from "../styles/index.js";
-// import { useQnaActions } from "../_actions/index";
-
-// interface EventHandler {
-//   onChangeInput: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-// }
+import "../styles/controller/controller.ts";
 
 const Controller = memo(() => {
   const [question, setQuestion] = useState<string>("");
@@ -48,12 +42,9 @@ const Controller = memo(() => {
   };
 
   return (
-    <div
-      style={{ display: "flex", gap: "20px", flexDirection: "column" }}
-      className="controller"
-    >
+    <ControllerStyle.ControllerContainer>
       <h3>새로운 낱말카드 세트 만들기</h3>
-      <div style={{ display: "flex", gap: "20px" }}>
+      <div className="controller-bd">
         <ControllerStyle.ControllerQuestion>
           <div className="question">
             <label className="sr-only" htmlFor="question">
@@ -108,7 +99,7 @@ const Controller = memo(() => {
           </div>
         </ControllerStyle.ControllerSaveButton>
       </div>
-    </div>
+    </ControllerStyle.ControllerContainer>
   );
 });
 

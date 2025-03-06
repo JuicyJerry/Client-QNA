@@ -3,7 +3,7 @@ import { QnaStateContext } from "../_context/QnaStateProvider.tsx";
 import { useContext, useEffect, useRef, useState, memo } from "react";
 import { ListStyle } from "../styles/index";
 import QnaList from "../components/QnaList";
-import { Qna } from "../types";
+import { Qna } from "../types/types.ts";
 import { useLoading } from "../components/LoadingSpinner.js";
 
 const List = memo(() => {
@@ -65,7 +65,7 @@ const List = memo(() => {
 
   return (
     <div>
-      <header>
+      <header className="list-header">
         <h2>Predifined Quizzes</h2>
         <p>
           Get a taste our predifed quizzes containing the most relevant
@@ -74,8 +74,6 @@ const List = memo(() => {
       </header>
 
       <section className="list">
-        {/* 총 개수 <span>{qnas.questions.length}</span>
-      <p className="total"></p> */}
         <ul ref={listRef}>
           {qnas.questions.length > 0 ? (
             qnas.questions.map((element: Qna, index: number) => {

@@ -1,9 +1,7 @@
-import { useState, useEffect, useContext, memo } from "react";
-// import { QnaDispatchContext } from "../App";
+import { useState, useEffect, useContext, memo, useCallback } from "react";
 import { QnaDispatchContext } from "../_context/QnaDispatchProvider";
 import { useNavigate } from "react-router-dom";
-// import { useQnaActions } from "../_actions/index";
-import axios from "axios";
+import api from "../utils/axios";
 
 const Auth = memo(({ children, option, adminRoute = null }) => {
   // option => null, 아무나 출입 가능 페이지
@@ -22,33 +20,44 @@ const Auth = memo(({ children, option, adminRoute = null }) => {
   // 로그인 한 회원은 진입 못 하는 페이지: Login, Register
   // 관리자만 진입 가능 페이지 : Admin
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
-      const response = await axios.get("/api/users/auth");
-      console.log("[auth] response ===> ", response);
-      console.log("[auth] response ===> ", response.data.isAuth);
+      // console.log("localStorage.getItem ---> ", localStorage.getItem("user"));
+      const token = localStorage.getItem("user");
+      if (!token) {
+        const response = await api.get("/api/users/auth", {
+          headers: {
+            // withCredentials: true, // 서버 쿠키 기반 인증
+            // Authorization: `Bearer ${localStorage.getItem("user")}`,
+          },
+        });
+        console.log("[auth] response ===> ", response);
+        console.log("[auth] response ===> ", response.data.isAuth);
 
-      // 로그인한 상태
-      if (response.data.isAuth) {
-        onAuth({ isLogin: true, isAuth: true, message: "인증 성공" });
+        // 로그인한 상태
+        if (response.data.isAuth) {
+          onAuth({ isLogin: true, isAuth: true, message: "인증 성공" });
 
-        if (adminRoute && !response.data.isAdmin) {
-          navigate("/login");
-        } else {
-          if (!option) {
-            navigate("/");
+          if (adminRoute && !response.data.isAdmin) {
+            navigate("/login");
+          } else {
+            if (!option) {
+              navigate("/");
+            }
           }
-        }
-      } else {
-        if (option) {
-          onAuth({ isLogin: false, message: "인증 실패" });
-          navigate("/login");
+        } else {
+          if (option) {
+            onAuth({ isLogin: false, message: "인증 실패" });
+            navigate("/login");
+          }
         }
       }
     } catch (err) {
-      console.log("err ===> ", err);
+      if (err.response.data.error === "token is not found") {
+        // console.log("토큰 없는 상태")
+      } else console.log("err ===> ", err);
     }
-  };
+  });
 
   useEffect(() => {
     // console.log("[auth]check");

@@ -101,6 +101,9 @@ export const RegisterForm = styled.div`
     width: 14px;
     height: 23px;
   }
+  .alert-tel {
+    color: green;
+  }
 
   // .pw-condition.basic img {
   //   display: block;

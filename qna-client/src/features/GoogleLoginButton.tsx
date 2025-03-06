@@ -1,12 +1,12 @@
 import { useEffect, useContext } from "react";
-import Axios from "axios";
 import { useNavigate } from "react-router-dom";
-// import { QnaDispatchContext } from "../App";
 import { QnaDispatchContext } from "../_context/QnaDispatchProvider.tsx";
+import { ENV } from "../config/env.ts";
+import api from "../utils/axios.ts";
 
 const GoogleLoginButton = () => {
-  console.log("Google Client ID:", import.meta.env.VITE_GOOGLE_CLIENT_ID);
-  console.log("Google Redirect URI:", import.meta.env.VITE_GOOGLE_REDIRECT_URI);
+  console.log("Google Client ID:", ENV.GOOGLE_CLIENT_ID);
+  console.log("Google Redirect URI:", ENV.GOOGLE_CLIENT_REDIRECT);
   const navigate = useNavigate();
   const { onLogin } = useContext(QnaDispatchContext)!;
 
@@ -15,18 +15,15 @@ const GoogleLoginButton = () => {
   ) => {
     e.preventDefault();
 
-    console.log("Google Client ID 2:", import.meta.env.VITE_GOOGLE_CLIENT_ID);
-    console.log(
-      "Google Redirect URI 2:",
-      import.meta.env.VITE_GOOGLE_REDIRECT_URI
-    );
+    console.log("Google Client ID 2:", ENV.GOOGLE_CLIENT_ID);
+    console.log("Google Redirect URI 2:", ENV.GOOGLE_CLIENT_REDIRECT);
 
     const googleAuthUrl = new URL(
       "https://accounts.google.com/o/oauth2/v2/auth"
     );
     const params = {
-      client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
-      redirect_uri: import.meta.env.VITE_GOOGLE_REDIRECT_URI,
+      client_id: ENV.GOOGLE_CLIENT_ID,
+      redirect_uri: ENV.GOOGLE_CLIENT_REDIRECT,
       response_type: "code",
       scope: "email profile",
       access_type: "offline",
@@ -39,8 +36,8 @@ const GoogleLoginButton = () => {
 
     // window.location.href = googleAuthUrl.toString();
     // window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?
-    // client_id=${import.meta.env.VITE_GOOGLE_CLIENT_ID}
-    // &redirect_uri=${import.meta.env.VITE_GOOGLE_REDIRECT_URI}
+    // client_id=${ENV.GOOGLE_CLIENT_ID}
+    // &redirect_uri=${ENV.GOOGLE_CLIENT_REDIRECT}
     // &response_type=code
     // &scope=email profile`
   };
@@ -48,7 +45,7 @@ const GoogleLoginButton = () => {
   useEffect(() => {
     /* global google */
     google.accounts.id.initialize({
-      client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID, // 위에서 발급받은 클라이언트 ID
+      client_id: ENV.GOOGLE_CLIENT_ID, // 위에서 발급받은 클라이언트 ID
       callback: handleCredentialResponse,
     });
     google.accounts.id.renderButton(
@@ -64,9 +61,9 @@ const GoogleLoginButton = () => {
 
     try {
       console.log("User Info: 1");
-      // Axios.post("http://localhost:5000/api/users/login", body)
-      // const res = await Axios.post("/api/users/google-login", {
-      const res = await Axios.post(
+      // api.post("http://localhost:5000/api/users/login", body)
+      // const res = await api.post("/api/users/google-login", {
+      const res = await api.post(
         "http://localhost:5000/api/users/google-login",
         {
           token: response.credential,
@@ -85,13 +82,7 @@ const GoogleLoginButton = () => {
     }
   };
 
-  return (
-    <div
-      style={{ height: "auto" }}
-      onClick={googleLoginClick}
-      id="google-button"
-    ></div>
-  );
+  return <div onClick={googleLoginClick} id="google-button"></div>;
 };
 
 export default GoogleLoginButton;

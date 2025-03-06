@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 
 export const ListContainer = styled.div`
-  header {
+  .list-header {
     text-align: center;
     padding-top: 50px;
   }
