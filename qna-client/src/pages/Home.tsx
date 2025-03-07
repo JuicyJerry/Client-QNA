@@ -39,7 +39,7 @@ const Home = memo(() => {
       <ListStyle.ListContainer>
         <section className="home">
           <Header />
-          <ListStyle.ListContainer />
+          <List />
         </section>
       </ListStyle.ListContainer>
     </HomeStyle.HomeContainer>

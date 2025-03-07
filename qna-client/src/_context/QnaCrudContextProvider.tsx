@@ -3,7 +3,7 @@ import { Qna, QnaCrudContextType } from "../types/types";
 
 export const QnaCrudContext = createContext<QnaCrudContextType | null>(null);
 
-export const QnaCrudContextProvider = memo(({ children }) => {
+export const QnaCrudContextProvider = memo(({ dispatch, children }) => {
   console.log("[QnaCrudContextProvider] check ===> check");
   const memoizedCRUD = useMemo(() => {
     return {

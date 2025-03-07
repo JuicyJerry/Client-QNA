@@ -95,7 +95,7 @@ function App() {
     <div className="App">
       <QnaStateProvider qnas={qnas}>
         <QnaDispatchProvider qnas={qnas} dispatch={dispatch}>
-          <QnaCrudContextProvider>
+          <QnaCrudContextProvider dispatch={dispatch}>
             <Navigation />
             <Routes>
               <Route
@@ -118,7 +118,7 @@ function App() {
                   </Auth>
                 }
               />
-              <Route
+              {/* <Route
                 path="/viewer"
                 element={
                   <Auth option={true}>
@@ -127,7 +127,7 @@ function App() {
                     </ViewerStyle.viewerContainer>
                   </Auth>
                 }
-              />
+              /> */}
               <Route
                 path="/controller"
                 element={
@@ -173,7 +173,7 @@ function App() {
               <Route
                 path="/detail/:id"
                 element={
-                  <Auth option={null}>
+                  <Auth option={true}>
                     <DetailCardStyle.DetailContainer>
                       <Detail />
                     </DetailCardStyle.DetailContainer>
@@ -184,7 +184,7 @@ function App() {
               <Route
                 path="detailResult"
                 element={
-                  <Auth option={null}>
+                  <Auth option={true}>
                     <DetailCardStyle.DetailResultContainer>
                       <DetailResult />
                     </DetailCardStyle.DetailResultContainer>

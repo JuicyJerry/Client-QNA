@@ -28,14 +28,16 @@ const Auth = memo(({ children, option, adminRoute = null }) => {
     try {
       // console.log("localStorage.getItem ---> ", localStorage.getItem("user"));
       const token = localStorage.getItem("user");
-      console.log("[auth] token ===> ", token);
+      console.log("[auth] token 1===> ", token);
       console.log("[auth] option ===> ", option);
 
       if (token) {
+        console.log("[auth] token 2===> ", token);
+
         const response = await api.get("/api/users/auth", {
           headers: {
-            withCredentials: true, // 서버 쿠키 기반 인증
-            // Authorization: `Bearer ${localStorage.getItem("user")}`,
+            // withCredentials: true, // 서버 쿠키 기반 인증
+            // Authorization: `Bearer ${token}`,
           },
         });
         console.log("[auth] response ===> ", response);
@@ -77,7 +79,7 @@ const Auth = memo(({ children, option, adminRoute = null }) => {
   useEffect(() => {
     console.log("[auth]check");
     fetchData();
-  }, [option]);
+  }, [option, localStorage.getItem("user")]);
   // }, [adminRoute, navigate, option, onAuth]);
 
   /**

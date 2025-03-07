@@ -16,20 +16,25 @@ const Navigation = memo(() => {
   // console.log("[Navigation]isLogin 1 ---> ", isLogin);
   // console.log("[Navigation]onLogout 2---> ", onLogout);
   const { onLogout } = useContext(QnaDispatchContext)!;
-  const [isLogin, setIsLogin] = useState(
-    localStorage.getItem("isLogin") === "true"
-  );
+  const [isLogin, setIsLogin] = useState(false);
   useEffect(() => {
+    console.log(
+      "[navigation] localStorage.getItem ---> ",
+      localStorage.getItem("user")
+    );
+
     if (localStorage.getItem("user")) {
       setIsLogin(true);
+    } else {
+      setIsLogin(false);
     }
-  }, []);
+  }, [localStorage.getItem("user")]);
   const navigate = useNavigate();
 
   const navLinks = [
     { path: "/", label: "Home" },
     { path: "/list", label: "List" },
-    { path: "/viewer", label: "Viewer" },
+    // { path: "/viewer", label: "Viewer" },
     { path: "/controller", label: "Controller" },
   ];
 
