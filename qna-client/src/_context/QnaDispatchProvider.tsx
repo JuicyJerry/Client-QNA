@@ -28,7 +28,7 @@ export const QnaDispatchProvider = memo(({ qnas, dispatch, children }) => {
         console.log("[QnaDispatchProvider] userInfo.isLogout ===> ");
 
         dispatch({
-          type: "LOGIN",
+          type: "LOGOUT",
           isLogin: false,
           message: "로그아웃 작동",
         });

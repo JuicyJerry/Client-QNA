@@ -23,6 +23,11 @@ export const ListContainer = styled.div`
     height: calc(100vh - 500px);
     margin: 10px auto;
     overflow: hidden;
+
+    border: 1px solid rgb(0 0 0 / 20%);
+    border-radius: 5rem;
+    padding: 20px;
+    margin-top: 50px;
   }
   ul {
     display: flex;

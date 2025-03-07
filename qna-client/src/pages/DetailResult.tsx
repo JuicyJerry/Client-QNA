@@ -19,7 +19,7 @@ const DetailResult = memo(() => {
       </div>
       <div className="result-section">
         <p>
-          {correctAnswers} / {totalQuestions}
+          {correctAnswers} / {totalQuestions + 1}
         </p>
         <button onClick={() => navigate("/detail")}>
           마지막 문제로 돌아가기

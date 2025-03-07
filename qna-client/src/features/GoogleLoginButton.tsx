@@ -13,6 +13,7 @@ const GoogleLoginButton = () => {
   const googleLoginClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
+    console.log("[googleLoginClick] googleLoginClick 1 ---> ");
     e.preventDefault();
 
     /* global google */
@@ -44,6 +45,8 @@ const GoogleLoginButton = () => {
       googleAuthUrl.searchParams.append(key, params[key])
     );
 
+    console.log("[googleLoginClick] googleLoginClick 2 ---> ");
+
     // window.location.href = googleAuthUrl.toString();
     // window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?
     // client_id=${ENV.GOOGLE_CLIENT_ID}
@@ -66,7 +69,7 @@ const GoogleLoginButton = () => {
 
   const handleCredentialResponse = async (response) => {
     // response.credential: JWT 토큰이 들어있음.
-    // console.log("Encoded JWT ID token: " + response.credential);
+    console.log("Encoded JWT ID token: " + response.credential);
     // 백엔드 서버에 토큰 전달하여 검증 및 사용자 정보 획득
 
     try {
@@ -79,7 +82,7 @@ const GoogleLoginButton = () => {
           token: response.credential,
         }
       );
-      // console.log("User Info: 2", res.data.user);
+      console.log("User Info: 2", res.data.user);
       localStorage.setItem("user", JSON.stringify(res.data.user));
       onLogin({
         isLogin: true,

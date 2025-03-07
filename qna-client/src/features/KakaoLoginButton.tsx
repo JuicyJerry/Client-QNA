@@ -1,9 +1,11 @@
 // KakaoLogin.jsx
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import kakao from "../assets/imgs/kakao_login_medium_narrow.png";
 import { useNavigate } from "react-router-dom";
+import { QnaDispatchContext } from "../_context/QnaDispatchProvider.tsx";
 import { ENV } from "../config/env.ts";
 import styled from "@emotion/styled";
+import api from "../utils/axios.ts";
 
 const StyledKakaoButton = styled.button`
   width: 100%;
@@ -16,6 +18,7 @@ const StyledKakaoButtonImg = styled.img`
 
 const KakaoLoginButton = () => {
   const navigate = useNavigate();
+  const { onLogin } = useContext(QnaDispatchContext)!;
 
   useEffect(() => {
     // console.log("[KakaoLoginButton]VITE_KAKAO_JS_KEY ===> ", ENV.KAKAO_JS_KEY);
@@ -45,9 +48,21 @@ const KakaoLoginButton = () => {
         // 로그인 성공 후 사용자 정보 요청
         window.Kakao.API.request({
           url: "/v2/user/me",
-          success: (res) => {
-            console.log("사용자 정보:", res);
-            localStorage.setItem("user", JSON.stringify(res.data.user));
+          success: async (response) => {
+            console.log("사용자 정보:", response);
+            const res = await api.post(
+              "http://localhost:5000/api/users/kakao-login",
+              {
+                token: authObj,
+              }
+            );
+            localStorage.setItem("user", authObj);
+            console.log("[handleKakaoLogin]User Info: 2", res.data.user);
+            // localStorage.setItem("user", JSON.stringify(res.data.user));
+            onLogin({
+              isLogin: true,
+              message: "로그인 성공",
+            });
             navigate("/", { state: { userInfo: res } });
             // 사용자 정보를 상태관리하거나 백엔드로 전송하는 등 후속 작업 수행
           },
