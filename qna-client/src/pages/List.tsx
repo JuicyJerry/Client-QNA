@@ -1,11 +1,12 @@
-import { QnaStateContext } from "../App.js";
-import { useContext, useEffect, useRef, useState } from "react";
+// import { QnaStateContext } from "../App.js";
+import { QnaStateContext } from "../_context/QnaStateProvider.tsx";
+import { useContext, useEffect, useRef, useState, memo } from "react";
 import { ListStyle } from "../styles/index";
 import QnaList from "../components/QnaList";
-import { Qna } from "../types";
+import { Qna } from "../types/types.ts";
 import { useLoading } from "../components/LoadingSpinner.js";
 
-const List = () => {
+const List = memo(() => {
   const { setIsLoading } = useLoading();
   const qnas = useContext(QnaStateContext);
   const [visibleQuestions, setVisibleQuestions] = useState<Qna[]>([]);
@@ -15,24 +16,24 @@ const List = () => {
 
   useEffect(() => {
     setIsLoading(true);
+    console.log("[list] qnas ---> ", qnas);
     if (qnas?.questions.length) {
       setVisibleQuestions(qnas.questions.slice(0, itemsPerPage));
-      setIsLoading(false);
     }
+    setIsLoading(false);
   }, []);
 
   // 스크롤 이벤트 감지하여 추가 데이터 로딩
   useEffect(() => {
     const listElement = listRef.current;
-    console.log("listElement ---> ", listElement);
+    // console.log("listElement ---> ", listElement);
     if (!listElement) return;
 
     const handleScroll = () => {
       const { scrollTop, scrollHeight, clientHeight } = listElement;
-      console.log("scrollTop + clientHeight ---> ", scrollTop + clientHeight);
-      console.log("scrollHeight - 5 ---> ", scrollHeight - 5, "\n\n");
+
       if (scrollTop + clientHeight >= scrollHeight - 5) {
-        console.log("[handleScroll] loadMoreQuestions 실행 ===> ");
+        // console.log("[handleScroll] loadMoreQuestions 실행 ===> ");
         loadMoreQuestions();
       }
     };
@@ -43,14 +44,14 @@ const List = () => {
 
   // 추가 데이터 로딩 함수
   const loadMoreQuestions = () => {
-    console.log(
-      "[loadMoreQuestions] qnas.questions.length ===> ",
-      qnas.questions.length
-    );
-    console.log(
-      "[loadMoreQuestions] visibleQuestions.length ===> ",
-      visibleQuestions.length
-    );
+    // console.log(
+    //   "[loadMoreQuestions] qnas.questions.length ===> ",
+    //   qnas.questions.length
+    // );
+    // console.log(
+    //   "[loadMoreQuestions] visibleQuestions.length ===> ",
+    //   visibleQuestions.length
+    // );
     if (qnas.questions.length > visibleQuestions.length) {
       setIsLoading(true);
       setTimeout(() => {
@@ -65,7 +66,7 @@ const List = () => {
 
   return (
     <div>
-      <header>
+      <header className="list-header">
         <h2>Predifined Quizzes</h2>
         <p>
           Get a taste our predifed quizzes containing the most relevant
@@ -74,8 +75,6 @@ const List = () => {
       </header>
 
       <section className="list">
-        {/* 총 개수 <span>{qnas.questions.length}</span>
-      <p className="total"></p> */}
         <ul ref={listRef}>
           {qnas.questions.length > 0 ? (
             qnas.questions.map((element: Qna, index: number) => {
@@ -95,6 +94,6 @@ const List = () => {
       </section>
     </div>
   );
-};
+});
 
 export default List;

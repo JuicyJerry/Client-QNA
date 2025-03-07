@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, memo } from "react";
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
 import logo from "../imgs/logo.svg"; // 로고 경로 맞게 수정!
@@ -22,7 +22,7 @@ const Spinner = styled.svg`
   animation: ${spin} 1.5s linear infinite;
 `;
 
-const LoadingSpinner: React.FC = () => {
+const LoadingSpinner: React.FC = memo(() => {
   return (
     <SpinnerWrapper>
       <Spinner viewBox="0 0 300 300">
@@ -69,7 +69,7 @@ const LoadingSpinner: React.FC = () => {
       </Spinner>
     </SpinnerWrapper>
   );
-};
+});
 
 // 전역 상태 관리
 interface LoadingContextValue {
@@ -85,7 +85,7 @@ export const LoadingProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-  console.log("[spinner] isLoading ---> ", isLoading);
+  // console.log("[spinner] isLoading ---> ", isLoading);
   return (
     <LoadingContext.Provider value={{ isLoading, setIsLoading }}>
       {isLoading ? <LoadingSpinner /> : children}
@@ -96,7 +96,7 @@ export const LoadingProvider: React.FC<{ children: React.ReactNode }> = ({
 // 로딩 상태 쉽게 가져올 수 있는 HOOK
 export const useLoading = () => {
   const context = useContext(LoadingContext);
-  console.log("[LoadingSpinner]context ===> ", context);
+  // console.log("[LoadingSpinner]context ===> ", context);
   if (!context) {
     throw new Error("useLoading must be used within a LoadingProvider");
   }

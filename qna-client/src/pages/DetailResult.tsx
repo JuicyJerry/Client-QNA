@@ -1,8 +1,8 @@
-import React from "react";
+import React, { memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
-const DetailResult = () => {
+const DetailResult = memo(() => {
   const navigate = useNavigate();
   const location = useLocation();
   const { totalQuestions, correctAnswers } = location.state || {};
@@ -31,6 +31,6 @@ const DetailResult = () => {
       </div>
     </div>
   );
-};
+});
 
 export default DetailResult;

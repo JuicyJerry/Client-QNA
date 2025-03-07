@@ -1,17 +1,29 @@
-import { useContext } from "react";
-import { QnaStateContext, QnaDispatchContext } from "../App";
+import { useContext, memo, useState, useEffect } from "react";
+// import { QnaStateContext, QnaDispatchContext } from "../App";
+import { QnaDispatchContext } from "../_context/QnaDispatchProvider.tsx";
+// import { QnaStateContext } from "../_context/QnaStateProvider.tsx";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { NavigationStyle } from "../styles/index";
-import logo from "../imgs/logo.svg";
+import logo from "../assets/imgs/logo.svg";
+import api from "../utils/axios.ts";
 
-const Navigation = () => {
-  // console.log("[Navigation]isLogin ---> ", useContext(QnaDispatchContext));
-  const { isLogin } = useContext(QnaStateContext)!;
+const Navigation = memo(() => {
+  // console.log(
+  //   "[Navigation]useContext(QnaStateContext) 0 ---> ",
+  //   useContext(QnaStateContext)
+  // );
+  // const { isLogin } = useContext(QnaStateContext)!;
+  // console.log("[Navigation]isLogin 1 ---> ", isLogin);
+  // console.log("[Navigation]onLogout 2---> ", onLogout);
   const { onLogout } = useContext(QnaDispatchContext)!;
-  // console.log("[Navigation]isLogin 2---> ", onLogout);
-  // console.log("[Navigation]isLogin 3---> ", isLogin);
-
+  const [isLogin, setIsLogin] = useState(
+    localStorage.getItem("isLogin") === "true"
+  );
+  useEffect(() => {
+    if (localStorage.getItem("user")) {
+      setIsLogin(true);
+    }
+  }, []);
   const navigate = useNavigate();
 
   const navLinks = [
@@ -23,7 +35,7 @@ const Navigation = () => {
 
   const onClickHandler = () => {
     // const token = localStorage.getItem("user");
-    axios
+    api
       .get(
         "/api/users/logout",
         // {
@@ -37,6 +49,8 @@ const Navigation = () => {
         console.log(response);
         if (response.data.logoutSuccess) {
           console.log("logoutSuccess");
+          localStorage.removeItem("user");
+          setIsLogin(false);
           onLogout();
           navigate("/login");
         } else {
@@ -106,6 +120,6 @@ const Navigation = () => {
       </section>
     </NavigationStyle.NavigationContainer>
   );
-};
+});
 
 export default Navigation;

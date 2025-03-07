@@ -1,14 +1,14 @@
-import { useState, useContext, useEffect } from "react";
-import Axios from "axios";
-import { QnaDispatchContext } from "../App";
+import { useState, useContext, useEffect, memo } from "react";
+import { QnaDispatchContext } from "../_context/QnaDispatchProvider.tsx";
 import { useNavigate } from "react-router-dom";
 import { RegisterStyle } from "../styles/index.js";
-import check from "../imgs/check.svg";
-import cancel from "../imgs/cancel.svg";
-import confirm from "../imgs/confirm.svg";
+import check from "../assets/imgs/check.svg";
+import cancel from "../assets/imgs/cancel.svg";
+import confirm from "../assets/imgs/confirm.svg";
 import PhoneEmailButton from "../components/PhoneEmailButton";
+import api from "../utils/axios.ts";
 
-const Register = () => {
+const Register = memo(() => {
   const [email, setEmail] = useState("");
   const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
@@ -50,6 +50,7 @@ const Register = () => {
   const { onRegister } = useContext(QnaDispatchContext)!;
   if (!onRegister)
     throw new Error("[useQnaActions]QnaDispatchContext is not found");
+
   const navigate = useNavigate();
 
   const onEmailHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,9 +77,11 @@ const Register = () => {
     if (!isVerified) {
       return alert("전화번호 인증을 완료해주세요.");
     }
-
-    if (password !== confirmPassword) {
+    if (password && password !== confirmPassword) {
       return alert("비밀번호와 비밀번호 확인이 같지 않습니다.");
+    }
+    if (!email || !nickname) {
+      return alert("이메일 또는 닉네임을 입력해주세요.");
     }
 
     const body = {
@@ -89,9 +92,10 @@ const Register = () => {
       authentication: isVerified,
     };
 
-    // Axios.post("/api/users/login", body)
-    Axios.post("/api/users/register", body)
-      // Axios.post("http://localhost:5000/api/users/login", body)
+    // api.post("/api/users/login", body)
+    api
+      .post("/api/users/register", body)
+      // api.post("http://localhost:5000/api/users/login", body)
       .then((response) => {
         console.log("[register] response ===> ", response);
         if (response.data.registerSuccess) {
@@ -199,7 +203,7 @@ const Register = () => {
 
           <PhoneEmailButton onVerify={handleVerification} />
           {isVerified && (
-            <p style={{ color: "green" }}>전화번호가 인증되었습니다.</p>
+            <p className="alert-tel">전화번호가 인증되었습니다.</p>
           )}
 
           <button className="btn-outline-success btn-round" type="submit">
@@ -209,6 +213,6 @@ const Register = () => {
       </RegisterStyle.RegisterForm>
     </div>
   );
-};
+});
 
 export default Register;

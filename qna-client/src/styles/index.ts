@@ -7,14 +7,14 @@
 // import NotfoundStyle from "./notfound";
 // import MinxinsStyle from "./minxins";
 
-export { default as ControllerStyle } from "./controller";
-export { default as HomeStyle } from "./home";
-export { default as ListStyle } from "./list";
-export { default as LoginStyle } from "./login";
-export { default as RegisterStyle } from "./register";
-export { default as ViewerStyle } from "./viewer";
-export { default as NotfoundStyle } from "./notfound";
-export { default as MinxinsStyle } from "./minxins";
-export { default as HeaderStyle } from "./header";
-export { default as NavigationStyle } from "./navigation";
-export { default as DetailCardStyle } from "./detailCard";
+export { default as ControllerStyle } from "./controller/controller";
+export { default as HomeStyle } from "./home/home";
+export { default as ListStyle } from "./list/list";
+export { default as LoginStyle } from "./login/login";
+export { default as RegisterStyle } from "./register/register";
+export { default as ViewerStyle } from "./Viewer/viewer";
+export { default as NotfoundStyle } from "./common/notfound";
+export { default as MinxinsStyle } from "./common/minxins";
+export { default as HeaderStyle } from "./home/header";
+export { default as NavigationStyle } from "./common/navigation";
+export { default as DetailCardStyle } from "./detailCard/detailCard";

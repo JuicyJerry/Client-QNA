@@ -1,22 +1,39 @@
 import styled from "@emotion/styled";
 
 export const ControllerContainer = styled.div`
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+
+  h3 {
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  h3 + .controller-bd {
+    display: flex;
+    // flex-direction: column;
+    gap: 20px;
+  }
+  h3 > .qna-plus {
+    border-radius: 5px;
+    background-color: #6fa56b;
+    color: #fff;
+    font-size: 12px;
+    padding: 6px;
+    height: 32px;
+    font-weight: 600;
+  }
+`;
+
+export const ControllerContents = styled.div`
   // width: 400px;
   width: fit-content;
   padding: 2rem;
   border-radius: 2rem;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0; 0, 0, 0.1);
   // min-height: 400px;
-
-  h3 {
-    font-size: 28px;
-  }
-
-  // .container {
-  //   width: 100%;
-  //   display: flex;
-  //   gap: 20px;
-  // }
 
   .warning {
     padding-top: 4px;
@@ -29,7 +46,7 @@ export const ControllerQuestion = styled.div`
   .question {
     display: flex;
     flex-direction: column;
-    height: 100px;
+    // height: 100px;
   }
 
   .question input[type="text"] {
@@ -50,7 +67,7 @@ export const ControllerAnswer = styled.div`
   .answer {
     display: flex;
     flex-direction: column;
-    height: 100px;
+    // height: 100px;
   }
   .answer {
     min-height: 80px;
@@ -84,6 +101,7 @@ export const ControllerSaveButton = styled.div`
 
 export default {
   ControllerContainer,
+  ControllerContents,
   ControllerQuestion,
   ControllerAnswer,
   ControllerSaveButton,

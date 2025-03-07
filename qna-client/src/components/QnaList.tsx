@@ -1,4 +1,5 @@
-import { Qna } from "../types";
+import { memo } from "react";
+import { Qna } from "../types/types";
 import { useNavigate } from "react-router-dom";
 
 interface Props {
@@ -6,7 +7,7 @@ interface Props {
   index: number;
 }
 
-export default function QnaList(props: Props) {
+export const QnaList = memo((props: Props) => {
   const navigate = useNavigate();
 
   const handleClick = (e) => {
@@ -26,4 +27,6 @@ export default function QnaList(props: Props) {
       {/* <p>{props.element.content.answer}</p> */}
     </a>
   );
-}
+});
+
+export default QnaList;

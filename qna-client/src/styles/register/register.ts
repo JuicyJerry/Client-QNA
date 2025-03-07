@@ -46,15 +46,16 @@ export const RegisterForm = styled.div`
     flex-direction: column;
     gap: 20px;
   }
-  form.tel {
+  section.tel {
+    display: flex;
     flex-direction: row;
     align-items: center;
     gap: 10px;
   }
-  form.tel + input[type="number"] {
+  section.tel + input[type="number"] {
     flex-wrap: wrap;
   }
-  form.tel button {
+  section.tel button {
     background-color: #0051ff;
     color: #fff;
     height: 40px;
@@ -65,11 +66,12 @@ export const RegisterForm = styled.div`
     white-space: nowrap;
     padding: 5px;
   }
-  form.tel input[type="tel"] {
+  section.tel input[type="tel"] {
     width: 100%;
   }
-  form.tel input[type="tel"] + input[type="number"] {
+  section.tel input[type="tel"] + input[type="number"] {
     width: 70%;
+    font-size: 12px;
   }
 
   form input[type="email"],
@@ -100,6 +102,9 @@ export const RegisterForm = styled.div`
     font-size: 16px;
     width: 14px;
     height: 23px;
+  }
+  .alert-tel {
+    color: green;
   }
 
   // .pw-condition.basic img {
