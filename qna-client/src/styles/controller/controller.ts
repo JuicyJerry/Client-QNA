@@ -7,11 +7,23 @@ export const ControllerContainer = styled.div`
 
   h3 {
     font-size: 28px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
   h3 + .controller-bd {
     display: flex;
     // flex-direction: column;
     gap: 20px;
+  }
+  h3 > .qna-plus {
+    border-radius: 5px;
+    background-color: #6fa56b;
+    color: #fff;
+    font-size: 12px;
+    padding: 6px;
+    height: 32px;
+    font-weight: 600;
   }
 `;
 

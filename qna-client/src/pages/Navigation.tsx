@@ -1,19 +1,29 @@
-import { useContext, memo } from "react";
+import { useContext, memo, useState, useEffect } from "react";
 // import { QnaStateContext, QnaDispatchContext } from "../App";
 import { QnaDispatchContext } from "../_context/QnaDispatchProvider.tsx";
-import { QnaStateContext } from "../_context/QnaStateProvider.tsx";
+// import { QnaStateContext } from "../_context/QnaStateProvider.tsx";
 import { Link, useNavigate } from "react-router-dom";
 import { NavigationStyle } from "../styles/index";
 import logo from "../assets/imgs/logo.svg";
 import api from "../utils/axios.ts";
 
 const Navigation = memo(() => {
-  // console.log("[Navigation]isLogin ---> ", useContext(QnaDispatchContext));
-  const { isLogin } = useContext(QnaStateContext)!;
+  // console.log(
+  //   "[Navigation]useContext(QnaStateContext) 0 ---> ",
+  //   useContext(QnaStateContext)
+  // );
+  // const { isLogin } = useContext(QnaStateContext)!;
+  // console.log("[Navigation]isLogin 1 ---> ", isLogin);
+  // console.log("[Navigation]onLogout 2---> ", onLogout);
   const { onLogout } = useContext(QnaDispatchContext)!;
-  // console.log("[Navigation]isLogin 2---> ", onLogout);
-  // console.log("[Navigation]isLogin 3---> ", isLogin);
-
+  const [isLogin, setIsLogin] = useState(
+    localStorage.getItem("isLogin") === "true"
+  );
+  useEffect(() => {
+    if (localStorage.getItem("user")) {
+      setIsLogin(true);
+    }
+  }, []);
   const navigate = useNavigate();
 
   const navLinks = [
@@ -39,6 +49,8 @@ const Navigation = memo(() => {
         console.log(response);
         if (response.data.logoutSuccess) {
           console.log("logoutSuccess");
+          localStorage.removeItem("user");
+          setIsLogin(false);
           onLogout();
           navigate("/login");
         } else {

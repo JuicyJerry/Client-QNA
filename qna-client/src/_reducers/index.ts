@@ -3,11 +3,12 @@ import { Qna, ActionTypes } from "../types/types";
 interface State {
   questions: Qna[];
   isLogin: boolean;
+  isAuth: boolean;
 }
 
 export default function reducer(state: State, action: ActionTypes) {
-  // console.log("[reducer] state ===> ", state);
-  // console.log("[reducer] action ===> ", action);
+  console.log("[reducer] state ===> ", state);
+  console.log("[reducer] action ===> ", action);
 
   switch (action.type) {
     case "CREATE":
@@ -34,9 +35,11 @@ export default function reducer(state: State, action: ActionTypes) {
     case "DELETE":
       return state.filter((item) => item.id !== action.targetId);
     case "LOGIN":
+      console.log("[reducer] LOGIN");
       return {
         ...state,
         isLogin: action.isLogin,
+        // isLogin: action.isLogin,
       };
     case "LOGOUT":
       return {

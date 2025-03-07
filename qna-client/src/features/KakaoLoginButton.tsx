@@ -18,21 +18,26 @@ const KakaoLoginButton = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("[KakaoLoginButton]VITE_KAKAO_JS_KEY ===> ", ENV.KAKAO_JS_KEY);
-    console.log("[KakaoLoginButton]window.Kakao ===> ", window.Kakao);
-    console.log(
-      "[KakaoLoginButton]window.Kakao.isInitialized() ===> ",
-      window.Kakao.isInitialized()
-    );
+    // console.log("[KakaoLoginButton]VITE_KAKAO_JS_KEY ===> ", ENV.KAKAO_JS_KEY);
+    // console.log("[KakaoLoginButton]window.Kakao ===> ", window.Kakao);
+    // console.log(
+    //   "[KakaoLoginButton]window.Kakao.isInitialized() ===> ",
+    //   window.Kakao.isInitialized()
+    // );
+    // // window.Kakao가 존재하는지 확인 후 초기화
+    // if (window.Kakao && !window.Kakao.isInitialized()) {
+    //   window.Kakao.init(ENV.KAKAO_JS_KEY); // 발급받은 JavaScript 키 입력
+    //   console.log("Kakao 초기화 완료:", window.Kakao.isInitialized());
+    // }
+  }, []);
 
+  const handleKakaoLogin = () => {
     // window.Kakao가 존재하는지 확인 후 초기화
     if (window.Kakao && !window.Kakao.isInitialized()) {
       window.Kakao.init(ENV.KAKAO_JS_KEY); // 발급받은 JavaScript 키 입력
       console.log("Kakao 초기화 완료:", window.Kakao.isInitialized());
     }
-  }, []);
 
-  const handleKakaoLogin = () => {
     window.Kakao.Auth.login({
       scope: "profile_nickname, account_email", // 필요한 권한 설정
       success: (authObj) => {
@@ -42,6 +47,7 @@ const KakaoLoginButton = () => {
           url: "/v2/user/me",
           success: (res) => {
             console.log("사용자 정보:", res);
+            localStorage.setItem("user", JSON.stringify(res.data.user));
             navigate("/", { state: { userInfo: res } });
             // 사용자 정보를 상태관리하거나 백엔드로 전송하는 등 후속 작업 수행
           },

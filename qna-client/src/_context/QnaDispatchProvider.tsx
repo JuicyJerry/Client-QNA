@@ -1,23 +1,31 @@
-import { useMemo, createContext } from "react";
+import { useMemo, createContext, memo } from "react";
 import { QnaUserInfoContextType } from "../types/types";
 
 export const QnaDispatchContext = createContext<QnaUserInfoContextType | null>(
   null
 );
-export const QnaDispatchProvider = ({ dispatch, children }) => {
+export const QnaDispatchProvider = memo(({ qnas, dispatch, children }) => {
   const memoizedDispatch = useMemo(() => {
+    console.log("[QnaDispatchProvider] dispatch ===> ", dispatch);
+
     return {
       onLogin: (userInfo: { isLogin: boolean; message: string }) => {
-        console.log("[App] userInfo.isLogin ===> ", userInfo.isLogin);
+        console.log(
+          "[QnaDispatchProvider] userInfo.isLogin ===> ",
+          userInfo.isLogin
+        );
 
+        console.log("dispatch test1");
         dispatch({
           type: "LOGIN",
           isLogin: userInfo.isLogin,
           message: userInfo.message,
         });
+        localStorage.setItem("user", `${JSON.stringify(userInfo)}`);
+        console.log("dispatch test2 [userInfo.isLogin]", userInfo.isLogin);
       },
       onLogout: () => {
-        console.log("[App] userInfo.isLogout ===> ");
+        console.log("[QnaDispatchProvider] userInfo.isLogout ===> ");
 
         dispatch({
           type: "LOGIN",
@@ -41,7 +49,7 @@ export const QnaDispatchProvider = ({ dispatch, children }) => {
       },
       dispatch,
     };
-  }, [dispatch]);
+  }, [qnas.isLogin]);
   // }, [dispatch]);
 
   return (
@@ -49,6 +57,6 @@ export const QnaDispatchProvider = ({ dispatch, children }) => {
       {children}
     </QnaDispatchContext.Provider>
   );
-};
+});
 
 export default QnaDispatchProvider;

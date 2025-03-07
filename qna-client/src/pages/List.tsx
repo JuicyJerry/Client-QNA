@@ -16,10 +16,11 @@ const List = memo(() => {
 
   useEffect(() => {
     setIsLoading(true);
+    console.log("[list] qnas ---> ", qnas);
     if (qnas?.questions.length) {
       setVisibleQuestions(qnas.questions.slice(0, itemsPerPage));
-      setIsLoading(false);
     }
+    setIsLoading(false);
   }, []);
 
   // 스크롤 이벤트 감지하여 추가 데이터 로딩

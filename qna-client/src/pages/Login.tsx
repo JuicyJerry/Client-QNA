@@ -5,18 +5,21 @@ import { Link, useNavigate } from "react-router-dom";
 import GoogleLoginButton from "../features/GoogleLoginButton";
 import KakaoLoginButton from "../features/KakaoLoginButton";
 import api from "../utils/axios.ts";
+import { useLoading } from "../components/LoadingSpinner";
 
 const Login = memo(() => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { onLogin } = useContext(QnaDispatchContext)!;
   const navigate = useNavigate();
+  const { isLoading, setIsLoading } = useLoading();
 
   const onErrorMessageHandler = (isActive: boolean) => {
     console.log("[onErrorMessageHandler] Validation Process ===> ", isActive);
 
     if (isActive) document.querySelector(".err-msg")?.classList.add("active");
     else document.querySelector(".err-msg")?.classList.remove("active");
+    setIsLoading(false);
   };
 
   const onEmailHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,15 +35,21 @@ const Login = memo(() => {
   const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     console.log("[onSubmitHandler] check ===> ", email);
     console.log("[onSubmitHandler] check ===> ", password);
-
+    setIsLoading(true);
     event.preventDefault();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!email || !password || !emailRegex.test(email) || password.length < 6) {
-      console.log("[Validation Fail] !email ===> ", !email);
-      console.log("[Validation Fail] !email ===> ", !password);
-      console.log("[Validation Fail] !email ===> ", !emailRegex.test(email));
-      console.log("[Validation Fail] !email ===> ", password.length < 6);
+    if (!email || !password || emailRegex.test(email) || password.length < 6) {
+      console.log("[Validation Fail] !email ===> ", !email, email);
+      console.log("[Validation Fail] !password ===> ", !password, password);
+      console.log(
+        "[Validation Fail] !emailRegex.test(email) ===> ",
+        !emailRegex.test(email)
+      );
+      console.log(
+        "[Validation Fail] password.length < 6) ===> ",
+        password.length < 6
+      );
       return onErrorMessageHandler(true);
     } else {
       console.log("Validation Success");
@@ -54,20 +63,27 @@ const Login = memo(() => {
         .post("/api/users/login", body, { withCredentials: true })
         // api.post("http://localhost:5000/api/users/login", body)
         .then((response) => {
+          console.log(
+            "[Login] response.data.loginSuccess ===> ",
+            response.data.loginSuccess
+          );
+
           if (response.data.loginSuccess) {
+            setIsLoading(false);
             onLogin({
               isLogin: true,
               message: "로그인 성공",
             });
-            navigate("/");
+            navigate("/", { replace: true });
           } else {
             console.log("Validation Fail");
 
+            setIsLoading(false);
+            alert("Error");
             onLogin({
               isLogin: false,
               message: "로그인 실패",
             });
-            alert("Error");
 
             return onErrorMessageHandler(true);
           }
@@ -78,6 +94,7 @@ const Login = memo(() => {
             isLogin: false,
             message: "로그인 에러 발생",
           });
+          setIsLoading(false);
 
           return onErrorMessageHandler(true);
         });

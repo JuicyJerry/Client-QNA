@@ -1,4 +1,4 @@
-import { useEffect, useState, useReducer } from "react";
+import { useEffect, useState, useReducer, useRef } from "react";
 import reducer from "./_reducers/index";
 import Auth from "./features/Auth";
 import { Routes, Route } from "react-router-dom";
@@ -49,18 +49,31 @@ function App() {
     isLogin: false,
   };
   const [qnas, dispatch] = useReducer(reducer, initialState);
+  // const didFetch = useRef(false);
+  const didFetch = localStorage.getItem("isFetched");
+  console.log("[app]didFetch ===> ", didFetch);
+
+  const handleBeforeUnload = () => {
+    localStorage.removeItem("isFetched");
+  };
 
   useEffect(() => {
+    if (didFetch) return;
+    localStorage.setItem("isFetched", "true");
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    console.log("dispatch in App:", dispatch);
     setIsLoading(true);
 
     axios
       .get("/data/mockData.json")
       .then((response) => {
         if (response.data) {
-          // console.log("Here is App Cmp 3 ---> ", response.data);
+          console.log("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
+          console.log("Here is App Cmp  ---> ", response.data);
           setMockdata(response.data);
           dispatch({ type: "SET_QUESTIONS", data: response.data });
           setIsLoading(false);
+          console.log("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
         } else {
           alert("mock data 없음");
           setMockdata(response.data);
@@ -71,12 +84,17 @@ function App() {
         console.error("API 호출 오류: ", error);
         setIsLoading(false);
       });
+
+    // 클린업 함수: 컴포넌트가 언마운트되거나, 리렌더링될 때 beforeunload 이벤트에 대한 리스너를 제거
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
   }, []);
 
   return (
     <div className="App">
       <QnaStateProvider qnas={qnas}>
-        <QnaDispatchProvider dispatch={dispatch}>
+        <QnaDispatchProvider qnas={qnas} dispatch={dispatch}>
           <QnaCrudContextProvider>
             <Navigation />
             <Routes>

@@ -1,9 +1,10 @@
-import { useMemo, createContext } from "react";
+import { useMemo, createContext, memo } from "react";
 import { Qna, QnaCrudContextType } from "../types/types";
 
 export const QnaCrudContext = createContext<QnaCrudContextType | null>(null);
 
-export const QnaCrudContextProvider = ({ children }) => {
+export const QnaCrudContextProvider = memo(({ children }) => {
+  console.log("[QnaCrudContextProvider] check ===> check");
   const memoizedCRUD = useMemo(() => {
     return {
       onCreate: (content: Qna) => {
@@ -23,6 +24,6 @@ export const QnaCrudContextProvider = ({ children }) => {
       {children}
     </QnaCrudContext.Provider>
   );
-};
+});
 
 export default QnaCrudContextProvider;

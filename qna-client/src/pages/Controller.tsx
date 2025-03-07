@@ -41,9 +41,16 @@ const Controller = memo(() => {
     setAnswer("");
   };
 
+  const plusQuestions = () => {};
+
   return (
     <ControllerStyle.ControllerContainer>
-      <h3>새로운 낱말카드 세트 만들기</h3>
+      <h3>
+        새로운 낱말카드 세트 만들기
+        <button onClick={plusQuestions} className="qna-plus" type="button">
+          질문 추가
+        </button>
+      </h3>
       <div className="controller-bd">
         <ControllerStyle.ControllerQuestion>
           <div className="question">

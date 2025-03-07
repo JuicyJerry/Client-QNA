@@ -50,6 +50,7 @@ const Register = memo(() => {
   const { onRegister } = useContext(QnaDispatchContext)!;
   if (!onRegister)
     throw new Error("[useQnaActions]QnaDispatchContext is not found");
+
   const navigate = useNavigate();
 
   const onEmailHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,9 +77,11 @@ const Register = memo(() => {
     if (!isVerified) {
       return alert("전화번호 인증을 완료해주세요.");
     }
-
-    if (password !== confirmPassword) {
+    if (password && password !== confirmPassword) {
       return alert("비밀번호와 비밀번호 확인이 같지 않습니다.");
+    }
+    if (!email || !nickname) {
+      return alert("이메일 또는 닉네임을 입력해주세요.");
     }
 
     const body = {

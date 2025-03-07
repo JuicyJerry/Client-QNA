@@ -55,7 +55,7 @@ const PhoneEmailButton: React.FC<{ onVerify: (phone: string) => void }> = memo(
     return (
       <div>
         <RegisterStyle.RegisterForm>
-          <form className="tel">
+          <section className="tel">
             <label className="sr-only">Phone Number</label>
             <input
               type="tel"
@@ -77,7 +77,7 @@ const PhoneEmailButton: React.FC<{ onVerify: (phone: string) => void }> = memo(
                 <button onClick={handleVerifyCode}>인증 확인</button>
               </>
             )}
-          </form>
+          </section>
         </RegisterStyle.RegisterForm>
       </div>
     );
