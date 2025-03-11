@@ -10,7 +10,7 @@ interface Props {
 export const QnaList = memo((props: Props) => {
   const navigate = useNavigate();
 
-  const handleClick = (e) => {
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     e.preventDefault();
     console.log("props.element --->", props.element.id);
     navigate(`/detail/${props.element.id}`);

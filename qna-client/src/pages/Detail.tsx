@@ -1,14 +1,14 @@
 // import { QnaStateContext } from "../App.js";
-import { QnaStateContext } from "../_context/QnaStateProvider.tsx";
-import React, { useState, useContext, memo } from "react";
+import { QnaStateContext } from "../_context/index";
+import { useState, useContext, memo } from "react";
 import { useNavigate } from "react-router-dom";
 import DetailCard from "../components/DetailCard";
 import { useParams } from "react-router-dom";
-import { useKeyPress } from "../hooks/useKeyPress"; // 방향키 이벤트 훅
+// import { useKeyPress } from "../hooks/useKeyPress"; // 방향키 이벤트 훅
 
 const Detail = memo(() => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [correctAnswers, setCorrectAnswers] = useState(0);
+  // const [correctAnswers, setCorrectAnswers] = useState(0);
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const qnas = useContext(QnaStateContext);
@@ -24,15 +24,16 @@ const Detail = memo(() => {
     if (direction === "left" && currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
     } else if (
+      qnas &&
       direction === "right" &&
       currentIndex < qnas?.questions.length - 1
     ) {
       setCurrentIndex(currentIndex + 1);
-    } else if (currentIndex === qnas?.questions.length - 1) {
+    } else if (qnas && currentIndex === qnas?.questions.length - 1) {
       navigate("/detailResult", {
         state: {
           totalQuestions: qnas?.questions.length - 1,
-          correctAnswers: correctAnswers,
+          // correctAnswers: correctAnswers,
         },
       });
     }
@@ -41,7 +42,7 @@ const Detail = memo(() => {
   return (
     <div className="detail-layout">
       <div className="question-card-container">
-        <DetailCard question={qnas?.questions[currentIndex]} />
+        <DetailCard question={qnas && qnas?.questions[currentIndex]} />
       </div>
       <div className="navigation">
         <button

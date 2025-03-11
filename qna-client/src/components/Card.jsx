@@ -1,7 +1,15 @@
 import { useState, useEffect } from "react";
 import { MinxinsStyle } from "../styles/index";
 
-const Card = ({ question, answer, index, total, prevCard, nextCard }) => {
+const Card = ({
+  question,
+  answer,
+  index,
+  total,
+  prevCard,
+  nextCard,
+  flipped,
+}) => {
   console.log(`Card: ${question}`);
   console.log(`Card: ${index}`);
   console.log(`Card: ${total}`);

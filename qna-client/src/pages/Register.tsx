@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect, memo } from "react";
-import { QnaDispatchContext } from "../_context/QnaDispatchProvider.tsx";
+import { QnaDispatchContext } from "../_context/index";
 import { useNavigate } from "react-router-dom";
 import { RegisterStyle } from "../styles/index.js";
 import check from "../assets/imgs/check.svg";
@@ -47,7 +47,12 @@ const Register = memo(() => {
     setPwCondition3(condition3 ? "success" : "cancel");
   }, [password]);
 
-  const { onRegister } = useContext(QnaDispatchContext)!;
+  const context = useContext(QnaDispatchContext);
+  if (!context) {
+    throw new Error("QnaDispatchContext not found");
+  }
+  const onRegister = context?.onRegister;
+
   if (!onRegister)
     throw new Error("[useQnaActions]QnaDispatchContext is not found");
 

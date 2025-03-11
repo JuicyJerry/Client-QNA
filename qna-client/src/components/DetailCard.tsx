@@ -1,5 +1,6 @@
 import React, { useState, useEffect, memo } from "react";
 import { DetailCardStyle } from "../styles";
+import { Qna } from "../types/types";
 
 const DetailCard = memo(({ question }: { question: Qna }) => {
   const [flipped, setFlipped] = useState(false);
