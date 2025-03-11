@@ -29,11 +29,19 @@ export default function reducer(state: State, action: ActionTypes) {
         ],
       };
     case "UPDATE":
-      return state.map((item) =>
-        item.id === action.targetId ? { ...item, isDone: !item.isDone } : item
-      );
+      return {
+        ...state,
+        questions: state.questions.map((item) =>
+          item.id === action.targetId ? { ...item, isDone: !item.isDone } : item
+        ),
+      };
     case "DELETE":
-      return state.filter((item) => item.id !== action.targetId);
+      return {
+        ...state,
+        questions: state.questions.filter(
+          (item) => item.id !== action.targetId
+        ),
+      };
     case "LOGIN":
       console.log("[reducer] LOGIN");
       return {

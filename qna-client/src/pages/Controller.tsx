@@ -1,6 +1,5 @@
 import React, { useState, useRef, useContext, memo } from "react";
-import { QnaStateContext } from "../_context/QnaStateProvider.tsx";
-import { QnaCrudContext } from "../_context/QnaCrudContextProvider.tsx";
+import { QnaStateContext, QnaCrudContext } from "../_context/index";
 import { ControllerStyle } from "../styles/index.js";
 import "../styles/controller/controller.ts";
 
@@ -10,7 +9,7 @@ const Controller = memo(() => {
 
   const qnas = useContext(QnaStateContext);
   if (!qnas) throw new Error("[useQnaActions]QnaStateContext is not found");
-  const idRef = useRef(qnas.questions.length);
+  const idRef = useRef(qnas.length);
 
   const { onCreate } = useContext(QnaCrudContext)!;
   // const { onCreate } = useQnaActions();
@@ -33,6 +32,7 @@ const Controller = memo(() => {
       content: {
         question: question,
         answer: answer,
+        tags: "",
       },
       isDone: true,
     });
