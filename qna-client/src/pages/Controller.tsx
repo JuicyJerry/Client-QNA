@@ -9,7 +9,9 @@ const Controller = memo(() => {
 
   const qnas = useContext(QnaStateContext);
   if (!qnas) throw new Error("[useQnaActions]QnaStateContext is not found");
-  const idRef = useRef(qnas.length);
+  console.log("[Controller]qnas ===> ", qnas);
+  console.log("[Controller]qnas.questions.length ===> ", qnas.questions.length);
+  const idRef = useRef(qnas.questions.length);
 
   const { onCreate } = useContext(QnaCrudContext)!;
   // const { onCreate } = useQnaActions();

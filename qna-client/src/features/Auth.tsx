@@ -16,6 +16,7 @@ const Auth = memo(({ children, option, adminRoute = null }: QnaAuthProps) => {
   }
   const onAuth = context?.onAuth;
   const navigate = useNavigate();
+  console.log("[auth] option 0 ===> ", option);
 
   // 아무나 진입 가능한 페이지 : Home, About
   // 로그인 회원만 집입 가능 페이지 : Viewer, List
@@ -64,7 +65,7 @@ const Auth = memo(({ children, option, adminRoute = null }: QnaAuthProps) => {
       console.log("err ===> ", err);
       navigate("/");
     }
-  }, []);
+  }, [option]);
 
   useEffect(() => {
     console.log("[auth]check");
