@@ -63,13 +63,22 @@ const KakaoLoginButton = () => {
               }
             );
             localStorage.setItem("user", JSON.stringify(authObj));
-            console.log("[handleKakaoLogin]User Info: 2", res.data.user);
+            console.log("[handleKakaoLogin]User Info: 0", res);
+            console.log("[handleKakaoLogin]User Info: 1", res.data);
+            console.log("[handleKakaoLogin]User Info: 2", res.data?.user);
             // localStorage.setItem("user", JSON.stringify(res.data.user));
             onLogin({
               isLogin: true,
               message: "로그인 성공",
             });
-            navigate("/", { state: { userInfo: res } });
+            console.log("[handleKakaoLogin]User Info: 3", res);
+            console.log(
+              "[handleKakaoLogin]User Info: 4",
+              JSON.parse(JSON.stringify(res.data))
+            );
+            navigate("/", {
+              state: { userInfo: JSON.parse(JSON.stringify(res.data)) },
+            });
             // 사용자 정보를 상태관리하거나 백엔드로 전송하는 등 후속 작업 수행
           },
           fail: (error: KakaoError) => {

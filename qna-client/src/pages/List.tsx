@@ -17,8 +17,8 @@ const List = memo(() => {
   useEffect(() => {
     setIsLoading(true);
     console.log("[list] qnas ---> ", qnas);
-    if (qnas && qnas.length) {
-      setVisibleQuestions(qnas.slice(0, itemsPerPage));
+    if (qnas && qnas.questions.length) {
+      setVisibleQuestions(qnas.questions.slice(0, itemsPerPage));
     }
     setIsLoading(false);
   }, []);
@@ -52,11 +52,11 @@ const List = memo(() => {
     //   "[loadMoreQuestions] visibleQuestions.length ===> ",
     //   visibleQuestions.length
     // );
-    if (qnas && qnas.length > visibleQuestions.length) {
+    if (qnas && qnas.questions.length > visibleQuestions.length) {
       setIsLoading(true);
       setTimeout(() => {
         const nextPage = page + 1;
-        const nextQuestions = qnas.slice(0, nextPage * itemsPerPage);
+        const nextQuestions = qnas.questions.slice(0, nextPage * itemsPerPage);
         setVisibleQuestions(nextQuestions);
         setPage(nextPage);
         setIsLoading(false);
@@ -76,8 +76,8 @@ const List = memo(() => {
 
       <section className="list">
         <ul ref={listRef}>
-          {qnas && qnas.length > 0 ? (
-            qnas.map((element: Qna, index: number) => {
+          {qnas && qnas.questions.length > 0 ? (
+            qnas.questions.map((element: Qna, index: number) => {
               return (
                 <ListStyle.ListList
                   className={`list-${index}`}
