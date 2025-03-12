@@ -1,8 +1,14 @@
 // KakaoLogin.jsx
-import React, { useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
+
+declare global {
+  interface Window {
+    Kakao: any;
+  }
+}
 import kakao from "../assets/imgs/kakao_login_medium_narrow.png";
 import { useNavigate } from "react-router-dom";
-import { QnaDispatchContext } from "../_context/QnaDispatchProvider.tsx";
+import { QnaDispatchContext } from "../_context/index";
 import { ENV } from "../config/env.ts";
 import styled from "@emotion/styled";
 import api from "../utils/axios.ts";
@@ -43,36 +49,70 @@ const KakaoLoginButton = () => {
 
     window.Kakao.Auth.login({
       scope: "profile_nickname, account_email", // 필요한 권한 설정
-      success: (authObj) => {
+      success: (authObj: object) => {
         console.log("로그인 성공:", authObj);
         // 로그인 성공 후 사용자 정보 요청
         window.Kakao.API.request({
           url: "/v2/user/me",
-          success: async (response) => {
+          success: async (response: KakaoUserResponse) => {
             console.log("사용자 정보:", response);
-            const res = await api.post(
+            const res = await api.post<KakaoLoginResponse>(
               "http://localhost:5000/api/users/kakao-login",
               {
                 token: authObj,
               }
             );
-            localStorage.setItem("user", authObj);
-            console.log("[handleKakaoLogin]User Info: 2", res.data.user);
+            localStorage.setItem("user", JSON.stringify(authObj));
+            console.log("[handleKakaoLogin]User Info: 0", res);
+            console.log("[handleKakaoLogin]User Info: 1", res.data);
+            console.log("[handleKakaoLogin]User Info: 2", res.data?.user);
             // localStorage.setItem("user", JSON.stringify(res.data.user));
             onLogin({
               isLogin: true,
               message: "로그인 성공",
             });
-            navigate("/", { state: { userInfo: res } });
+            console.log("[handleKakaoLogin]User Info: 3", res);
+            console.log(
+              "[handleKakaoLogin]User Info: 4",
+              JSON.parse(JSON.stringify(res.data))
+            );
+            navigate("/", {
+              state: { userInfo: JSON.parse(JSON.stringify(res.data)) },
+            });
             // 사용자 정보를 상태관리하거나 백엔드로 전송하는 등 후속 작업 수행
           },
-          fail: (err) => {
-            console.error("사용자 정보 요청 실패:", err);
+          fail: (error: KakaoError) => {
+            console.error("사용자 정보 요청 실패:", error);
           },
         });
+
+        interface KakaoUserResponse {
+          id: number;
+          properties: {
+            nickname: string;
+            profile_image: string;
+            thumbnail_image: string;
+          };
+          kakao_account: {
+            email: string;
+          };
+        }
+
+        interface KakaoLoginResponse {
+          user: {
+            id: string;
+            email: string;
+            nickname: string;
+          };
+        }
+
+        interface KakaoError {
+          error: string;
+          error_description: string;
+        }
       },
-      fail: (err) => {
-        console.error("로그인 실패:", err);
+      fail: (error) => {
+        console.error("로그인 실패:", error);
       },
     });
   };

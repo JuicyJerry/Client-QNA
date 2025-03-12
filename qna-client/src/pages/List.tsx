@@ -1,5 +1,5 @@
 // import { QnaStateContext } from "../App.js";
-import { QnaStateContext } from "../_context/QnaStateProvider.tsx";
+import { QnaStateContext } from "../_context/index";
 import { useContext, useEffect, useRef, useState, memo } from "react";
 import { ListStyle } from "../styles/index";
 import QnaList from "../components/QnaList";
@@ -17,7 +17,7 @@ const List = memo(() => {
   useEffect(() => {
     setIsLoading(true);
     console.log("[list] qnas ---> ", qnas);
-    if (qnas?.questions.length) {
+    if (qnas && qnas.questions.length) {
       setVisibleQuestions(qnas.questions.slice(0, itemsPerPage));
     }
     setIsLoading(false);
@@ -52,7 +52,7 @@ const List = memo(() => {
     //   "[loadMoreQuestions] visibleQuestions.length ===> ",
     //   visibleQuestions.length
     // );
-    if (qnas.questions.length > visibleQuestions.length) {
+    if (qnas && qnas.questions.length > visibleQuestions.length) {
       setIsLoading(true);
       setTimeout(() => {
         const nextPage = page + 1;
@@ -76,7 +76,7 @@ const List = memo(() => {
 
       <section className="list">
         <ul ref={listRef}>
-          {qnas.questions.length > 0 ? (
+          {qnas && qnas.questions.length > 0 ? (
             qnas.questions.map((element: Qna, index: number) => {
               return (
                 <ListStyle.ListList

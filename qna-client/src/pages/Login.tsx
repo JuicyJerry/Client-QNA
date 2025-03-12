@@ -1,5 +1,5 @@
 import React, { useState, useContext, memo } from "react";
-import { QnaDispatchContext } from "../_context/QnaDispatchProvider.tsx";
+import { QnaDispatchContext } from "../_context/index";
 import { LoginStyle } from "../styles/index.js";
 import { Link, useNavigate } from "react-router-dom";
 import GoogleLoginButton from "../features/GoogleLoginButton";
@@ -12,7 +12,7 @@ const Login = memo(() => {
   const [password, setPassword] = useState("");
   const { onLogin } = useContext(QnaDispatchContext)!;
   const navigate = useNavigate();
-  const { isLoading, setIsLoading } = useLoading();
+  const { setIsLoading } = useLoading();
 
   const onErrorMessageHandler = (isActive: boolean) => {
     console.log("[onErrorMessageHandler] Validation Process ===> ", isActive);

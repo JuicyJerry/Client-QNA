@@ -1,6 +1,5 @@
 import { useEffect, useContext, memo } from "react";
-// import { QnaDispatchContext } from "../App";
-import { QnaDispatchContext } from "../_context/QnaDispatchProvider.tsx";
+import { QnaDispatchContext } from "../_context/index";
 import { HomeStyle } from "../styles/index";
 import { ListStyle } from "../styles/index";
 import Header from "../components/Header";
@@ -10,8 +9,11 @@ import api from "../utils/axios.ts";
 
 const Home = memo(() => {
   const location = useLocation();
-  const { onLogin } = useContext(QnaDispatchContext)!;
-  // console.log("[home]location ===> ", location);
+  const context = useContext(QnaDispatchContext);
+  if (!context) {
+    throw new Error("Cannot find QnaDispatchContext");
+  }
+  const onLogin = context?.onLogin;
 
   if (location.state?.userInfo) {
     // console.log("[home] location.state ===> ", location.state);
@@ -24,8 +26,8 @@ const Home = memo(() => {
   useEffect(() => {
     api
       .get("/api/hello")
-      .then((response) => {
-        // console.log("Home 화면입니다.", response);
+      .then(() => {
+        // console.log("Home 화면입니다.");
       })
       .catch((err) => {
         // console.log("Home 화면입니다.2");

@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, memo } from "react";
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
-import logo from "../imgs/logo.svg"; // 로고 경로 맞게 수정!
+// import logo from "../imgs/logo.svg"; // 로고 경로 맞게 수정!
 
 const SpinnerWrapper = styled.div`
   display: flex;
